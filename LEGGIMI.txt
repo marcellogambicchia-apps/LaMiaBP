@@ -1,0 +1,20 @@
+LA MIA BP NEW - PACCHETTO WEB APP iOS (PWA)
+===========================================
+
+Contenuto del pacchetto:
+- index.html            -> L'applicazione web completa (pronta da caricare online)
+- manifest.json         -> Configurazione PWA per esecuzione a schermo intero su iPhone
+- apple-touch-icon.png  -> Icona per la schermata Home di iOS (180x180 px)
+- icon-192.png          -> Icona app standard (192x192 px)
+- icon-512.png          -> Icona app alta risoluzione (512x512 px)
+
+COME INSTALLARLA SU IPHONE:
+1. Carica l'intero contenuto di questa cartella (o direttamente questo file .zip)
+   su un servizio gratuito di hosting statico come Netlify Drop (app.netlify.com/drop)
+   oppure GitHub Pages.
+2. Apri il link generato con Safari sul tuo iPhone.
+3. Tocca l'icona Condividi in basso e seleziona "Aggiungi alla schermata Home".
+4. Avvia "La Mia BP" dalla Home: si aprira' a schermo intero con la sua icona
+   personalizzata e salvera' i tuoi dati in locale sul telefono.
+
+Created By Gambicchia Marcello (2026)
