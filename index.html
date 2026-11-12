@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="default"> 
+<meta id="themeColorMeta" name="theme-color" content="#F2F2F7">
 <meta name="apple-mobile-web-app-title" content="La Mia BP new">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -221,6 +222,8 @@
       <input type="file" id="csvFileInput" accept=".csv,.txt" style="display:none;">
       <button type="button" id="btnExportCsv" class="action-btn">Esporta Tutti i Dati in CSV</button>
       <button type="button" id="btnExportJson" class="action-btn">Scarica Backup Completo (.JSON)</button>
+      <button type="button" id="btnImportJson" class="action-btn">Ripristina da Backup (.JSON)</button>
+      <input type="file" id="jsonFileInput" accept=".json" style="display:none;">
       <button type="button" id="btnResetAll" class="action-btn danger">Azzera Tutti i Dati</button>
     </div>
     <div class="footer-credit">Created By Gambicchia Marcello (2026)</div>
@@ -617,6 +620,8 @@
 
   function applyPrefsUI() {
     document.body.classList.toggle('dark', prefs.dark);
+        var metaTheme = document.getElementById('themeColorMeta');
+    if (metaTheme) metaTheme.setAttribute('content', prefs.dark ? '#000000' : '#F2F2F7');
     document.getElementById('toggleDark').checked = prefs.dark;
     document.getElementById('vis-netto').checked = prefs.vis.netto;
     document.getElementById('vis-media').checked = prefs.vis.media;
@@ -877,6 +882,38 @@
       showToast('Tutti i dati sono stati azzerati');
     }
   });
+  document.getElementById('btnImportJson').addEventListener('click', function() {
+    document.getElementById('jsonFileInput').click();
+  });
+  document.getElementById('jsonFileInput').addEventListener('change', function(e) {
+    var file = e.target.files && e.target.files.item(0);
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        var parsed = JSON.parse(ev.target.result || '{}');
+        if (parsed && typeof parsed === 'object' && parsed.monthly) {
+          state.monthly = parsed.monthly || {};
+          state.events = Array.isArray(parsed.events) ? parsed.events : [];
+          saveState();
+          syncYearDropdown();
+          renderDashboard();
+          renderStorico();
+          showToast('Backup JSON ripristinato con successo');
+        } else {
+          showToast('File di backup JSON non valido');
+        }
+      } catch (err) {
+        showToast('Errore nella lettura del file JSON');
+      }
+    };
+    reader.readAsText(file, 'UTF-8');
+    this.value = '';
+  });
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(function() {});
+  }
 
   loadAll();
   applyPrefsUI();
