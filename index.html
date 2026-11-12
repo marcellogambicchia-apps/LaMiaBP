@@ -11,57 +11,36 @@
 <title>La Mia BP new</title>
 <style>
   :root {
-    --bg: #F2F2F7;
-    --card: #FFFFFF;
-    --text: #1C1C1E;
-    --subtext: #8E8E93;
-    --border: #E5E5EA;
-    --blue: #007AFF;
-    --green: #34C759;
-    --orange: #FF9500;
-    --indigo: #5856D6;
-    --red: #FF3B30;
-    --pill-bg: #E5F1FF;
-    --tab-bg: rgba(255, 255, 255, 0.92);
-    --input-bg: #F2F2F7;
+    --bg: #F2F2F7; --card: #FFFFFF; --text: #1C1C1E; --subtext: #8E8E93;
+    --border: #E5E5EA; --blue: #007AFF; --green: #34C759; --orange: #FF9500;
+    --indigo: #5856D6; --red: #FF3B30; --pill-bg: #E5F1FF;
+    --tab-bg: rgba(255, 255, 255, 0.92); --input-bg: #F2F2F7;
   }
   body.dark {
-    --bg: #000000;
-    --card: #1C1C1E;
-    --text: #FFFFFF;
-    --subtext: #98989D;
-    --border: #2C2C2E;
-    --pill-bg: #1C2B3A;
-    --tab-bg: rgba(28, 28, 30, 0.92);
-    --input-bg: #2C2C2E;
+    --bg: #000000; --card: #1C1C1E; --text: #FFFFFF; --subtext: #98989D;
+    --border: #2C2C2E; --pill-bg: #1C2B3A;
+    --tab-bg: rgba(28, 28, 30, 0.92); --input-bg: #2C2C2E;
   }
   * {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box; -webkit-tap-highlight-color: transparent;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
   }
   body {
-    margin: 0;
-    padding: env(safe-area-inset-top) 0 calc(84px + env(safe-area-inset-bottom)) 0;
-    background-color: var(--bg);
-    color: var(--text);
-    transition: background-color 0.25s, color 0.25s;
+    margin: 0; padding: env(safe-area-inset-top) 0 calc(84px + env(safe-area-inset-bottom)) 0;
+    background-color: var(--bg); color: var(--text); transition: background-color 0.25s, color 0.25s;
   }
   .container { max-width: 540px; margin: 0 auto; padding: 16px; }
   .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; gap: 10px; }
   .header h1 { font-size: 28px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
   .header-controls { display: flex; align-items: center; gap: 10px; }
   .year-select {
-    appearance: none; -webkit-appearance: none;
-    background-color: var(--pill-bg); color: var(--blue);
-    border: none; border-radius: 20px; padding: 8px 28px 8px 14px;
-    font-size: 15px; font-weight: 600; cursor: pointer;
+    appearance: none; -webkit-appearance: none; background-color: var(--pill-bg); color: var(--blue);
+    border: none; border-radius: 20px; padding: 8px 28px 8px 14px; font-size: 15px; font-weight: 600; cursor: pointer;
     background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://w3.org' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat; background-position: right 9px center; background-size: 14px;
   }
   .add-btn {
-    width: 36px; height: 36px; border-radius: 50%;
-    background-color: var(--blue); color: #FFFFFF; border: none;
+    width: 36px; height: 36px; border-radius: 50%; background-color: var(--blue); color: #FFFFFF; border: none;
     font-size: 22px; font-weight: 500; display: flex; align-items: center; justify-content: center;
     cursor: pointer; box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
   }
@@ -81,8 +60,7 @@
   .card-value { font-size: 23px; font-weight: 700; letter-spacing: -0.5px; margin: 2px 0 0 0; }
   .total-card { display: flex; justify-content: space-between; align-items: center; }
   .sigma-badge {
-    width: 40px; height: 40px; border-radius: 12px;
-    background-color: rgba(88, 86, 214, 0.12); color: var(--indigo);
+    width: 40px; height: 40px; border-radius: 12px; background-color: rgba(88, 86, 214, 0.12); color: var(--indigo);
     display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700;
   }
   .events-banner {
@@ -140,3 +118,766 @@
   .tab-item { background: none; border: none; color: var(--subtext); display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 10px; font-weight: 600; cursor: pointer; padding: 2px 12px; }
   .tab-item.active { color: var(--blue); }
   .tab-icon { font-size: 20px; line-height: 1; }
+  .modal-backdrop { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.45); display: none; align-items: flex-end; justify-content: center; z-index: 200; }
+  .modal-backdrop.open { display: flex; }
+  .modal-sheet { background-color: var(--card); width: 100%; max-width: 540px; border-radius: 22px 22px 0 0; padding: 18px 20px calc(24px + env(safe-area-inset-bottom)) 20px; box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2); }
+  .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .modal-title { font-size: 18px; font-weight: 700; }
+  .close-btn { background: var(--input-bg); border: none; color: var(--text); border-radius: 16px; padding: 6px 12px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .segmented { display: flex; background-color: var(--input-bg); border-radius: 10px; padding: 3px; margin-bottom: 16px; }
+  .seg-btn { flex: 1; border: none; background: transparent; color: var(--text); padding: 8px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; }
+  .seg-btn.active { background-color: var(--card); box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
+  .form-group { margin-bottom: 14px; }
+  .form-label { display: block; font-size: 13px; font-weight: 600; color: var(--subtext); margin-bottom: 6px; }
+  .form-input { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--border); background-color: var(--input-bg); color: var(--text); font-size: 16px; }
+  .save-btn { width: 100%; padding: 14px; border-radius: 14px; border: none; background-color: var(--blue); color: #FFFFFF; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 6px; }
+  .toast { position: fixed; top: calc(16px + env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); background-color: #1C1C1E; color: #FFFFFF; padding: 10px 18px; border-radius: 20px; font-size: 14px; font-weight: 500; z-index: 300; display: none; box-shadow: 0 4px 14px rgba(0,0,0,0.25); }
+</style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div class="container">
+  <div class="header">
+    <h1>La Mia BP new</h1>
+    <div class="header-controls">
+      <select id="yearSelect" class="year-select" aria-label="Seleziona Anno"></select>
+      <button id="openModalTopBtn" class="add-btn" type="button" aria-label="Aggiungi">+</button>
+    </div>
+  </div>
+  <div id="view-dashboard" class="view active">
+    <div id="eventsBanner" class="events-banner" style="display:none;">
+      <div class="events-banner-title">Eventi &amp; Scatti dell'Anno</div>
+      <div id="eventsBannerList"></div>
+    </div>
+    <div class="kpi-grid">
+      <div id="card-netto" class="card">
+        <div class="accent-top accent-green"></div>
+        <div class="card-title-row"><span class="card-label">Netto a Pagare</span><span style="color:var(--green);font-weight:700;">↗</span></div>
+        <div id="kpiNetto" class="card-value">€ 0</div>
+      </div>
+      <div id="card-media" class="card">
+        <div class="accent-top accent-orange"></div>
+        <div class="card-title-row"><span class="card-label">Media Mensile</span><span>📅</span></div>
+        <div id="kpiMedia" class="card-value">€ 0</div>
+      </div>
+    </div>
+    <div id="card-totale" class="card total-card" style="margin-top:12px;">
+      <div class="accent-top accent-indigo"></div>
+      <div><div class="card-label">Totale Storico Netti</div><div id="kpiTotaleStorico" class="card-value">€ 0</div></div>
+      <div class="sigma-badge">Σ</div>
+    </div>
+    <div id="card-chart-mensile" class="card">
+      <div class="chart-header">
+        <h3 id="monthlyChartTitle" class="chart-title">Andamento Mensile</h3>
+        <div class="chart-type-pills" id="pills-monthly">
+          <button type="button" class="chart-pill active" data-type="bar">Barre</button>
+          <button type="button" class="chart-pill" data-type="line">Linea</button>
+          <button type="button" class="chart-pill" data-type="pie">Torta</button>
+        </div>
+      </div>
+      <div id="monthlyChartTouch" class="chart-touch-area"><div id="monthlyChartContainer"></div></div>
+      <div class="chart-hint">Tocca il grafico per cambiare stile</div>
+    </div>
+    <div id="card-chart-annuale" class="card">
+      <div class="chart-header">
+        <h3 class="chart-title">Totale Netto Annuo</h3>
+        <div class="chart-type-pills" id="pills-annual">
+          <button type="button" class="chart-pill active" data-type="bar">Barre</button>
+          <button type="button" class="chart-pill" data-type="line">Linea</button>
+          <button type="button" class="chart-pill" data-type="pie">Torta</button>
+        </div>
+      </div>
+      <div id="annualChartTouch" class="chart-touch-area"><div id="annualChartContainer"></div></div>
+      <div class="chart-hint">Tocca il grafico per cambiare stile • Scorri per tutti gli anni</div>
+    </div>
+  </div>
+  <div id="view-storico" class="view">
+    <div id="storicoMonthHeader" class="section-header">Dettaglio Mensile</div>
+    <div id="storicoMonthlyList" class="list-card"></div>
+    <div class="section-header">Eventi dell'Anno</div>
+    <div id="storicoEventsList" class="list-card"></div>
+    <div class="section-header">Riepilogo Tutti gli Anni</div>
+    <div id="storicoYearsList" class="list-card"></div>
+  </div>
+  <div id="view-impostazioni" class="view">
+    <div class="section-header">Aspetto</div>
+    <div class="list-card">
+      <div class="list-row"><span>Dark Mode</span><label class="switch"><input type="checkbox" id="toggleDark"><span class="slider"></span></label></div>
+    </div>
+    <div class="section-header">Personalizzazione Dashboard</div>
+    <div class="list-card">
+      <div class="list-row"><span>Netto a Pagare</span><label class="switch"><input type="checkbox" id="vis-netto" checked><span class="slider"></span></label></div>
+      <div class="list-row"><span>Media Mensile</span><label class="switch"><input type="checkbox" id="vis-media" checked><span class="slider"></span></label></div>
+      <div class="list-row"><span>Totale Storico Netti</span><label class="switch"><input type="checkbox" id="vis-totale" checked><span class="slider"></span></label></div>
+      <div class="list-row"><span>Grafico Andamento Mensile</span><label class="switch"><input type="checkbox" id="vis-chart-mensile" checked><span class="slider"></span></label></div>
+      <div class="list-row"><span>Grafico Totale Netto Annuo</span><label class="switch"><input type="checkbox" id="vis-chart-annuale" checked><span class="slider"></span></label></div>
+    </div>
+    <div class="section-header">Importa ed Esporta Dati (CSV / JSON)</div>
+    <div class="list-card">
+      <div style="padding:12px 16px 2px 16px;font-size:13px;color:var(--subtext);">Esempio formato file CSV supportato (separatore <b>;</b> o <b>,</b>):</div>
+      <div class="csv-example">Anno;Mese;Netto<br>2025;Gennaio;2817.00<br>2025;Luglio;6558.00<br>2026;Gennaio;2861.00</div>
+      <button type="button" id="btnDownloadTemplate" class="action-btn">Scarica Modello CSV Vuoto</button>
+      <button type="button" id="btnImportCsv" class="action-btn">Carica File CSV Esistente</button>
+      <input type="file" id="csvFileInput" accept=".csv,.txt" style="display:none;">
+      <button type="button" id="btnExportCsv" class="action-btn">Esporta Tutti i Dati in CSV</button>
+      <button type="button" id="btnExportJson" class="action-btn">Scarica Backup Completo (.JSON)</button>
+      <button type="button" id="btnResetAll" class="action-btn danger">Azzera Tutti i Dati</button>
+    </div>
+    <div class="footer-credit">Created By Gambicchia Marcello (2026)</div>
+  </div>
+</div>
+<nav class="tab-bar">
+  <button type="button" class="tab-item active" data-tab="dashboard"><span class="tab-icon">⊞</span><span>Dashboard</span></button>
+  <button type="button" class="tab-item" data-tab="storico"><span class="tab-icon">🕒</span><span>Storico</span></button>
+  <button type="button" class="tab-item" id="tabAddBtn"><span class="tab-icon">⊕</span><span>Aggiungi</span></button>
+  <button type="button" class="tab-item" data-tab="impostazioni"><span class="tab-icon">⚙</span><span>Impostazioni</span></button>
+</nav>
+<div id="addModal" class="modal-backdrop">
+  <div class="modal-sheet">
+    <div class="modal-top"><span class="modal-title">Nuovo Inserimento</span><button type="button" id="closeModalBtn" class="close-btn">Annulla</button></div>
+    <div class="segmented">
+      <button type="button" id="segNetto" class="seg-btn active">Netto Mensile</button>
+      <button type="button" id="segEvento" class="seg-btn">Evento (€)</button>
+    </div>
+    <div id="formNetto">
+      <div class="form-group"><label class="form-label" for="inpYear">Anno</label><input type="number" id="inpYear" class="form-input" min="1990" max="2100"></div>
+      <div class="form-group"><label class="form-label" for="inpMonth">Mese</label>
+        <select id="inpMonth" class="form-input">
+          <option value="0">Gennaio</option><option value="1">Febbraio</option><option value="2">Marzo</option>
+          <option value="3">Aprile</option><option value="4">Maggio</option><option value="5">Giugno</option>
+          <option value="6">Luglio</option><option value="7">Agosto</option><option value="8">Settembre</option>
+          <option value="9">Ottobre</option><option value="10">Novembre</option><option value="11">Dicembre</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label" for="inpAmount">Totale Netto a Pagare (€)</label><input type="text" inputmode="decimal" id="inpAmount" class="form-input" placeholder="Es. 2850,00"></div>
+      <button type="button" id="btnSaveNetto" class="save-btn">Salva Netto Mensile</button>
+    </div>
+    <div id="formEvento" style="display:none;">
+      <div class="form-group"><label class="form-label" for="evYear">Anno</label><input type="number" id="evYear" class="form-input" min="1990" max="2100"></div>
+      <div class="form-group"><label class="form-label" for="evTitle">Descrizione Evento</label><input type="text" id="evTitle" class="form-input" placeholder="Es. Passaggio 7° Livello / Premio"></div>
+      <div class="form-group"><label class="form-label" for="evVal">Valore in Euro (€) - opzionale</label><input type="text" inputmode="decimal" id="evVal" class="form-input" placeholder="Es. 307,39"></div>
+      <button type="button" id="btnSaveEvento" class="save-btn">Salva Evento</button>
+    </div>
+  </div>
+</div>
+<script>
+(function() {
+  var STORAGE_KEY = 'lamiabp_new_data_v2';
+  var PREFS_KEY = 'lamiabp_new_prefs_v2';
+  var MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  var MONTHS_SHORT = ['G','F','M','A','M','G','L','A','S','O','N','D'];
+  var PIE_COLORS = ['#007AFF','#34C759','#FF9500','#5856D6','#FF2D55','#5AC8FA','#AF52DE','#FFCC00','#30B0C7','#FF3B30','#32ADE6','#A2845E'];
+  var CHART_TYPES = ['bar', 'line', 'pie'];
+
+  function makeZeroYear() {
+    var a = [];
+    for (var i = 0; i < 12; i++) a.push(0);
+    return a;
+  }
+
+  var currentYear = new Date().getFullYear();
+  var state = { monthly: {}, events: [] };
+  var prefs = {
+    dark: false,
+    vis: { netto: true, media: true, totale: true, chartMensile: true, chartAnnuale: true },
+    monthlyChartType: 'bar',
+    annualChartType: 'bar'
+  };
+
+  function loadAll() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') {
+          state.monthly = parsed.monthly || {};
+          state.events = Array.isArray(parsed.events) ? parsed.events : [];
+        }
+      }
+      var rawP = localStorage.getItem(PREFS_KEY);
+      if (rawP) {
+        var pp = JSON.parse(rawP);
+        if (pp) {
+          prefs.dark = !!pp.dark;
+          if (pp.vis) {
+            prefs.vis.netto = pp.vis.netto !== false;
+            prefs.vis.media = pp.vis.media !== false;
+            prefs.vis.totale = pp.vis.totale !== false;
+            prefs.vis.chartMensile = pp.vis.chartMensile !== false;
+            prefs.vis.chartAnnuale = pp.vis.chartAnnuale !== false;
+          }
+          if (CHART_TYPES.indexOf(pp.monthlyChartType) !== -1) prefs.monthlyChartType = pp.monthlyChartType;
+          if (CHART_TYPES.indexOf(pp.annualChartType) !== -1) prefs.annualChartType = pp.annualChartType;
+        }
+      }
+    } catch (e) {}
+    if (!state.monthly[currentYear]) {
+      var yrs = Object.keys(state.monthly).map(Number).sort(function(a,b){return b-a;});
+      if (yrs.length > 0) currentYear = yrs;
+    }
+  }
+
+  function saveState() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {} }
+  function savePrefs() { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {} }
+
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    t.textContent = msg;
+    t.style.display = 'block';
+    clearTimeout(t._timer);
+    t._timer = setTimeout(function() { t.style.display = 'none'; }, 2400);
+  }
+
+  function fmtEur(n) {
+    var val = Number(n) || 0;
+    return '€ ' + val.toLocaleString('it-IT', { minimumFractionDigits: val % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtShort(n) {
+    var val = Number(n) || 0;
+    if (val === 0) return '';
+    if (val >= 1000) return (val / 1000).toFixed(1).replace('.', ',') + 'k';
+    return Math.round(val) + '€';
+  }
+
+  function parseNumberInput(str) {
+    if (!str) return NaN;
+    var clean = String(str).trim().replace(/\s+/g, '');
+    if (clean.indexOf(',') !== -1 && clean.indexOf('.') !== -1) {
+      clean = clean.split('.').join('').replace(',', '.');
+    } else {
+      clean = clean.replace(',', '.');
+    }
+    return parseFloat(clean);
+  }
+  function getAvailableYears() {
+    var set = {};
+    set[new Date().getFullYear()] = true;
+    set[currentYear] = true;
+    Object.keys(state.monthly).forEach(function(y) { set[Number(y)] = true; });
+    state.events.forEach(function(ev) { if (ev.year) set[Number(ev.year)] = true; });
+    return Object.keys(set).map(Number).sort(function(a,b){ return b - a; });
+  }
+
+  function syncYearDropdown() {
+    var sel = document.getElementById('yearSelect');
+    var years = getAvailableYears();
+    sel.innerHTML = '';
+    years.forEach(function(y) {
+      var opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      if (y === currentYear) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+
+  function getMaxPositive(arr) {
+    var m = 1;
+    for (var i = 0; i < arr.length; i++) {
+      if ((Number(arr[i]) || 0) > m) m = Number(arr[i]);
+    }
+    return m;
+  }
+
+  function buildLineChartSVG(labels, values, highlightIdx) {
+    var n = labels.length;
+    var w = Math.max(320, n * 44);
+    var h = 155;
+    var padL = 18, padR = 18, padT = 24, padB = 24;
+    var plotW = w - padL - padR;
+    var plotH = h - padT - padB;
+    var maxVal = getMaxPositive(values);
+
+    var pts = [];
+    for (var i = 0; i < n; i++) {
+      var x = n === 1 ? padL + plotW / 2 : padL + (i / (n - 1)) * plotW;
+      var y = padT + plotH - ((values[i] || 0) / maxVal) * plotH;
+      pts.push({ x: x, y: y, val: values[i] || 0, lbl: labels[i], idx: i });
+    }
+
+    var pathD = '';
+    pts.forEach(function(p, idx) {
+      if (idx === 0) {
+        pathD += 'M ' + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
+      } else {
+        var prev = pts[idx - 1];
+        var cx = (prev.x + p.x) / 2;
+        pathD += ' C ' + cx.toFixed(1) + ' ' + prev.y.toFixed(1) + ', ' + cx.toFixed(1) + ' ' + p.y.toFixed(1) + ', ' + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
+      }
+    });
+
+    var areaD = pathD + ' L ' + pts[pts.length - 1].x.toFixed(1) + ' ' + (padT + plotH) + ' L ' + pts.x.toFixed(1) + ' ' + (padT + plotH) + ' Z';
+    var gradId = 'lg_' + Math.random().toString(36).substr(2, 6);
+
+    var svg = '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" style="display:block;">';
+    svg += '<defs><linearGradient id="' + gradId + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#007AFF" stop-opacity="0.28"/><stop offset="100%" stop-color="#007AFF" stop-opacity="0.0"/></linearGradient></defs>';
+    svg += '<path d="' + areaD + '" fill="url(#' + gradId + ')"/>';
+    svg += '<path d="' + pathD + '" fill="none" stroke="#007AFF" stroke-width="2.5" stroke-linecap="round"/>';
+
+    pts.forEach(function(p) {
+      var isHi = p.idx === highlightIdx;
+      var dotCol = isHi ? '#34C759' : '#007AFF';
+      if (p.val > 0) {
+        svg += '<circle cx="' + p.x.toFixed(1) + '" cy="' + p.y.toFixed(1) + '" r="' + (isHi ? '4.5' : '3.5') + '" fill="' + dotCol + '" stroke="#FFFFFF" stroke-width="1.5"/>';
+        svg += '<text x="' + p.x.toFixed(1) + '" y="' + (p.y - 7).toFixed(1) + '" text-anchor="middle" font-size="9" font-weight="600" fill="var(--subtext)">' + fmtShort(p.val) + '</text>';
+      }
+      svg += '<text x="' + p.x.toFixed(1) + '" y="' + (h - 6) + '" text-anchor="middle" font-size="10" font-weight="600" fill="var(--subtext)">' + p.lbl + '</text>';
+    });
+    svg += '</svg>';
+    return svg;
+  }
+
+  function buildPieChartHTML(labels, values) {
+    var total = values.reduce(function(a, b) { return a + (b || 0); }, 0);
+    if (total <= 0) return '<div class="empty-state">Nessun dato positivo da mostrare nel grafico a torta.</div>';
+
+    var size = 136;
+    var cx = size / 2, cy = size / 2, r = 54, innerR = 30;
+    var startAngle = -Math.PI / 2;
+    var svg = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '" style="flex-shrink:0;">';
+    var legend = '<div class="pie-legend">';
+
+    var activeItems = [];
+    for (var i = 0; i < labels.length; i++) {
+      if ((values[i] || 0) > 0) {
+        activeItems.push({ label: labels[i], val: values[i], color: PIE_COLORS[i % PIE_COLORS.length] });
+      }
+    }
+
+    if (activeItems.length === 1) {
+      var item = activeItems;
+      svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + item.color + '"/>';
+      svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + innerR + '" fill="var(--card)"/>';
+      legend += '<div class="legend-item"><div class="legend-left"><span class="legend-dot" style="background:' + item.color + '"></span><span>' + item.label + '</span></div><b>100% (' + fmtShort(item.val) + ')</b></div>';
+    } else {
+      activeItems.forEach(function(item) {
+        var slice = (item.val / total) * Math.PI * 2;
+        var endAngle = startAngle + slice;
+        var x1 = cx + r * Math.cos(startAngle);
+        var y1 = cy + r * Math.sin(startAngle);
+        var x2 = cx + r * Math.cos(endAngle);
+        var y2 = cy + r * Math.sin(endAngle);
+        var ix1 = cx + innerR * Math.cos(endAngle);
+        var iy1 = cy + innerR * Math.sin(endAngle);
+        var ix2 = cx + innerR * Math.cos(startAngle);
+        var iy2 = cy + innerR * Math.sin(startAngle);
+        var largeArc = slice > Math.PI ? 1 : 0;
+
+        var d = 'M ' + x1.toFixed(2) + ' ' + y1.toFixed(2) +
+                ' A ' + r + ' ' + r + ' 0 ' + largeArc + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) +
+                ' L ' + ix1.toFixed(2) + ' ' + iy1.toFixed(2) +
+                ' A ' + innerR + ' ' + innerR + ' 0 ' + largeArc + ' 0 ' + ix2.toFixed(2) + ' ' + iy2.toFixed(2) + ' Z';
+        svg += '<path d="' + d + '" fill="' + item.color + '" stroke="var(--card)" stroke-width="1.5"/>';
+        startAngle = endAngle;
+
+        var pct = Math.round((item.val / total) * 100);
+        legend += '<div class="legend-item"><div class="legend-left"><span class="legend-dot" style="background:' + item.color + '"></span><span>' + item.label + '</span></div><b>' + pct + '% (' + fmtShort(item.val) + ')</b></div>';
+      });
+    }
+    svg += '</svg>';
+    legend += '</div>';
+    return '<div class="pie-wrapper">' + svg + legend + '</div>';
+  }
+  function renderMonthlyChart(arr) {
+    var container = document.getElementById('monthlyChartContainer');
+    var type = prefs.monthlyChartType;
+    document.querySelectorAll('#pills-monthly .chart-pill').forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-type') === type);
+    });
+    if (type === 'pie') { container.innerHTML = buildPieChartHTML(MONTHS, arr); return; }
+    if (type === 'line') { container.innerHTML = '<div class="annual-scroll">' + buildLineChartSVG(MONTHS_SHORT, arr, -1) + '</div>'; return; }
+
+    var maxVal = getMaxPositive(arr);
+    var html = '<div class="bar-chart">';
+    for (var i = 0; i < 12; i++) {
+      var v = arr[i] || 0;
+      var hPct = v > 0 ? Math.max(6, Math.round((v / maxVal) * 100)) : 3;
+      html += '<div class="bar-col"><span class="bar-val">' + fmtShort(v) + '</span><div class="bar-fill" style="height:' + hPct + '%;opacity:' + (v > 0 ? '1' : '0.22') + '"></div><span class="bar-lbl">' + MONTHS_SHORT[i] + '</span></div>';
+    }
+    html += '</div>';
+    container.innerHTML = html;
+  }
+
+  function renderAnnualChart() {
+    var container = document.getElementById('annualChartContainer');
+    var type = prefs.annualChartType;
+    document.querySelectorAll('#pills-annual .chart-pill').forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-type') === type);
+    });
+    var years = Object.keys(state.monthly).map(Number).sort(function(a,b){ return a - b; });
+    if (years.length === 0) {
+      container.innerHTML = '<div class="empty-state">Premi <b>+</b> in alto a destra per inserire il primo mese.</div>';
+      return;
+    }
+    var totals = years.map(function(y) {
+      return (state.monthly[y] || []).reduce(function(a, b) { return a + (Number(b) || 0); }, 0);
+    });
+    var labels = years.map(String);
+    var hiIdx = years.indexOf(currentYear);
+
+    if (type === 'pie') { container.innerHTML = buildPieChartHTML(labels, totals); return; }
+    if (type === 'line') {
+      container.innerHTML = '<div class="annual-scroll" id="annualScrollBox">' + buildLineChartSVG(labels, totals, hiIdx) + '</div>';
+      scrollAnnualToSelected(hiIdx);
+      return;
+    }
+
+    var maxVal = getMaxPositive(totals);
+    var html = '<div class="annual-scroll" id="annualScrollBox"><div class="bar-chart">';
+    for (var i = 0; i < years.length; i++) {
+      var v = totals[i];
+      var hPct = v > 0 ? Math.max(6, Math.round((v / maxVal) * 100)) : 3;
+      var cls = years[i] === currentYear ? 'bar-fill highlight' : 'bar-fill';
+      html += '<div class="bar-col"><span class="bar-val">' + fmtShort(v) + '</span><div class="' + cls + '" style="height:' + hPct + '%"></div><span class="bar-lbl">' + years[i] + '</span></div>';
+    }
+    html += '</div></div>';
+    container.innerHTML = html;
+    scrollAnnualToSelected(hiIdx);
+  }
+
+  function scrollAnnualToSelected(idx) {
+    if (idx < 0) return;
+    setTimeout(function() {
+      var box = document.getElementById('annualScrollBox');
+      if (box) box.scrollLeft = Math.max(0, idx * 54 - box.clientWidth / 2 + 27);
+    }, 30);
+  }
+
+  function renderDashboard() {
+    var arr = state.monthly[currentYear] || makeZeroYear();
+    var yearSum = 0, activeMonths = 0;
+    for (var i = 0; i < 12; i++) {
+      var val = Number(arr[i]) || 0;
+      yearSum += val;
+      if (val > 0) activeMonths++;
+    }
+    var avg = activeMonths > 0 ? yearSum / activeMonths : 0;
+    var allTimeSum = 0;
+    Object.keys(state.monthly).forEach(function(y) {
+      var mArr = state.monthly[y] || [];
+      for (var j = 0; j < mArr.length; j++) allTimeSum += (Number(mArr[j]) || 0);
+    });
+
+    document.getElementById('kpiNetto').textContent = fmtEur(yearSum);
+    document.getElementById('kpiMedia').textContent = fmtEur(avg);
+    document.getElementById('kpiTotaleStorico').textContent = fmtEur(allTimeSum);
+    document.getElementById('monthlyChartTitle').textContent = 'Andamento Mensile ' + currentYear;
+
+    var yearEvents = state.events.filter(function(e) { return Number(e.year) === currentYear; });
+    var banner = document.getElementById('eventsBanner');
+    var bList = document.getElementById('eventsBannerList');
+    if (yearEvents.length > 0) {
+      banner.style.display = 'block';
+      bList.innerHTML = yearEvents.map(function(ev) {
+        var badge = (ev.value !== null && ev.value !== undefined && ev.value !== '') ? '<span class="event-val-badge">' + fmtEur(ev.value) + '</span>' : '';
+        return '<div class="event-chip"><span>' + escapeHtml(ev.title) + '</span>' + badge + '</div>';
+      }).join('');
+    } else {
+      banner.style.display = 'none';
+    }
+    renderMonthlyChart(arr);
+    renderAnnualChart();
+  }
+
+  function renderStorico() {
+    document.getElementById('storicoMonthHeader').textContent = 'Dettaglio Mensile ' + currentYear;
+    var arr = state.monthly[currentYear] || makeZeroYear();
+    var mHtml = '';
+    for (var i = 0; i < 12; i++) {
+      var val = Number(arr[i]) || 0;
+      mHtml += '<div class="list-row clickable" data-edit-month="' + i + '"><div><div>' + MONTHS[i] + '</div><div class="row-sub">Tocca per modificare</div></div><div style="font-weight:600;color:' + (val > 0 ? 'var(--text)' : 'var(--subtext)') + '">' + fmtEur(val) + '</div></div>';
+    }
+    document.getElementById('storicoMonthlyList').innerHTML = mHtml;
+
+    var evList = document.getElementById('storicoEventsList');
+    var yearEvents = state.events.map(function(e, idx) { return { item: e, idx: idx }; }).filter(function(o) { return Number(o.item.year) === currentYear; });
+    if (yearEvents.length === 0) {
+      evList.innerHTML = '<div class="list-row" style="color:var(--subtext);">Nessun evento registrato per il ' + currentYear + '</div>';
+    } else {
+      evList.innerHTML = yearEvents.map(function(o) {
+        var valStr = (o.item.value !== null && o.item.value !== undefined && o.item.value !== '') ? ' • ' + fmtEur(o.item.value) : '';
+        return '<div class="list-row"><div><div>' + escapeHtml(o.item.title) + '</div><div class="row-sub">' + o.item.year + valStr + '</div></div><button type="button" class="del-btn" data-del-ev="' + o.idx + '">Elimina</button></div>';
+      }).join('');
+    }
+
+    var yList = document.getElementById('storicoYearsList');
+    var years = Object.keys(state.monthly).map(Number).sort(function(a,b){ return b - a; });
+    if (years.length === 0) {
+      yList.innerHTML = '<div class="list-row" style="color:var(--subtext);">Nessun dato storico presente</div>';
+    } else {
+      yList.innerHTML = years.map(function(y) {
+        var sum = (state.monthly[y] || []).reduce(function(a,b){ return a + (Number(b)||0); }, 0);
+        return '<div class="list-row clickable" data-select-year="' + y + '"><b>' + y + '</b><span style="font-weight:600;color:var(--blue)">' + fmtEur(sum) + '</span></div>';
+      }).join('');
+    }
+  }
+
+  function applyPrefsUI() {
+    document.body.classList.toggle('dark', prefs.dark);
+    document.getElementById('toggleDark').checked = prefs.dark;
+    document.getElementById('vis-netto').checked = prefs.vis.netto;
+    document.getElementById('vis-media').checked = prefs.vis.media;
+    document.getElementById('vis-totale').checked = prefs.vis.totale;
+    document.getElementById('vis-chart-mensile').checked = prefs.vis.chartMensile;
+    document.getElementById('vis-chart-annuale').checked = prefs.vis.chartAnnuale;
+    document.getElementById('card-netto').style.display = prefs.vis.netto ? 'block' : 'none';
+    document.getElementById('card-media').style.display = prefs.vis.media ? 'block' : 'none';
+    document.getElementById('card-totale').style.display = prefs.vis.totale ? 'flex' : 'none';
+    document.getElementById('card-chart-mensile').style.display = prefs.vis.chartMensile ? 'block' : 'none';
+    document.getElementById('card-chart-annuale').style.display = prefs.vis.chartAnnuale ? 'block' : 'none';
+  }
+
+  function escapeHtml(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function switchTab(tabName) {
+    document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+    document.getElementById('view-' + tabName).classList.add('active');
+    document.querySelectorAll('.tab-item[data-tab]').forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-tab') === tabName);
+    });
+    if (tabName === 'dashboard') renderDashboard();
+    if (tabName === 'storico') renderStorico();
+  }
+
+  function openModal(mode, preMonth) {
+    document.getElementById('addModal').classList.add('open');
+    document.getElementById('inpYear').value = currentYear;
+    document.getElementById('evYear').value = currentYear;
+    if (typeof preMonth === 'number') {
+      document.getElementById('inpMonth').value = String(preMonth);
+      var existing = (state.monthly[currentYear] && state.monthly[currentYear][preMonth]) || '';
+      document.getElementById('inpAmount').value = existing ? String(existing).replace('.', ',') : '';
+    } else {
+      document.getElementById('inpAmount').value = '';
+    }
+    document.getElementById('evTitle').value = '';
+    document.getElementById('evVal').value = '';
+    setModalSegment(mode || 'netto');
+  }
+
+  function closeModal() { document.getElementById('addModal').classList.remove('open'); }
+
+  function setModalSegment(mode) {
+    var isNetto = mode === 'netto';
+    document.getElementById('segNetto').classList.toggle('active', isNetto);
+    document.getElementById('segEvento').classList.toggle('active', !isNetto);
+    document.getElementById('formNetto').style.display = isNetto ? 'block' : 'none';
+    document.getElementById('formEvento').style.display = isNetto ? 'none' : 'block';
+  }
+
+  function cycleChartType(key) {
+    var cur = prefs[key];
+    prefs[key] = CHART_TYPES[(CHART_TYPES.indexOf(cur) + 1) % CHART_TYPES.length];
+    savePrefs();
+    renderDashboard();
+  }
+  function downloadFile(filename, content, mime) {
+    var blob = new Blob([content], { type: mime });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+  }
+
+  function importCsvText(text) {
+    var lines = text.split(/\r?\n/);
+    var imported = 0;
+    for (var i = 0; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (!line) continue;
+      var sep = line.indexOf(';') !== -1 ? ';' : ',';
+      var parts = line.split(sep).map(function(p) { return p.trim().replace(/^"|"$/g, ''); });
+      if (parts.length < 3) continue;
+      var yr = parseInt(parts, 10);
+      if (isNaN(yr) || yr < 1900 || yr > 2100) continue;
+
+      var mRaw = parts.toLowerCase();
+      var mIdx = -1;
+      var mNum = parseInt(mRaw, 10);
+      if (!isNaN(mNum) && mNum >= 1 && mNum <= 12) {
+        mIdx = mNum - 1;
+      } else {
+        for (var m = 0; m < 12; m++) {
+          if (MONTHS[m].toLowerCase().indexOf(mRaw) === 0 || mRaw.indexOf(MONTHS[m].toLowerCase()) === 0) {
+            mIdx = m;
+            break;
+          }
+        }
+      }
+      if (mIdx === -1) continue;
+
+      var val = parseNumberInput(parts);
+      if (isNaN(val)) continue;
+
+      if (!state.monthly[yr]) state.monthly[yr] = makeZeroYear();
+      state.monthly[yr][mIdx] = val;
+      currentYear = yr;
+      imported++;
+    }
+    if (imported > 0) {
+      saveState();
+      syncYearDropdown();
+      renderDashboard();
+      renderStorico();
+      showToast('Importati ' + imported + ' mesi con successo');
+    } else {
+      showToast('Nessuna riga valida trovata nel CSV');
+    }
+  }
+
+  document.getElementById('yearSelect').addEventListener('change', function(e) {
+    currentYear = Number(e.target.value);
+    renderDashboard();
+    renderStorico();
+  });
+  document.getElementById('openModalTopBtn').addEventListener('click', function() { openModal('netto'); });
+  document.getElementById('tabAddBtn').addEventListener('click', function() { openModal('netto'); });
+  document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+  document.getElementById('addModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+  document.getElementById('segNetto').addEventListener('click', function() { setModalSegment('netto'); });
+  document.getElementById('segEvento').addEventListener('click', function() { setModalSegment('evento'); });
+
+  document.querySelectorAll('.tab-item[data-tab]').forEach(function(btn) {
+    btn.addEventListener('click', function() { switchTab(this.getAttribute('data-tab')); });
+  });
+
+  document.getElementById('btnSaveNetto').addEventListener('click', function() {
+    var yr = parseInt(document.getElementById('inpYear').value, 10);
+    var mo = parseInt(document.getElementById('inpMonth').value, 10);
+    var val = parseNumberInput(document.getElementById('inpAmount').value);
+    if (isNaN(yr) || yr < 1900 || yr > 2100) { showToast('Inserisci un anno valido'); return; }
+    if (isNaN(val) || val < 0) { showToast('Inserisci un importo valido'); return; }
+    if (!state.monthly[yr]) state.monthly[yr] = makeZeroYear();
+    state.monthly[yr][mo] = val;
+    currentYear = yr;
+    saveState();
+    syncYearDropdown();
+    renderDashboard();
+    renderStorico();
+    closeModal();
+    showToast('Netto salvato: ' + MONTHS[mo] + ' ' + yr);
+  });
+
+  document.getElementById('btnSaveEvento').addEventListener('click', function() {
+    var yr = parseInt(document.getElementById('evYear').value, 10);
+    var title = document.getElementById('evTitle').value.trim();
+    var valRaw = document.getElementById('evVal').value.trim();
+    var val = valRaw ? parseNumberInput(valRaw) : null;
+    if (isNaN(yr) || yr < 1900 || yr > 2100) { showToast('Inserisci un anno valido'); return; }
+    if (!title) { showToast('Inserisci una descrizione evento'); return; }
+    if (valRaw && isNaN(val)) { showToast('Valore in euro non valido'); return; }
+    state.events.push({ year: yr, title: title, value: val });
+    currentYear = yr;
+    saveState();
+    syncYearDropdown();
+    renderDashboard();
+    renderStorico();
+    closeModal();
+    showToast('Evento salvato per il ' + yr);
+  });
+
+  document.querySelectorAll('#pills-monthly .chart-pill').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      prefs.monthlyChartType = this.getAttribute('data-type');
+      savePrefs();
+      renderDashboard();
+    });
+  });
+  document.querySelectorAll('#pills-annual .chart-pill').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      prefs.annualChartType = this.getAttribute('data-type');
+      savePrefs();
+      renderDashboard();
+    });
+  });
+  document.getElementById('monthlyChartTouch').addEventListener('click', function() { cycleChartType('monthlyChartType'); });
+  document.getElementById('annualChartTouch').addEventListener('click', function() { cycleChartType('annualChartType'); });
+
+  document.getElementById('storicoMonthlyList').addEventListener('click', function(e) {
+    var row = e.target.closest('[data-edit-month]');
+    if (row) openModal('netto', parseInt(row.getAttribute('data-edit-month'), 10));
+  });
+  document.getElementById('storicoEventsList').addEventListener('click', function(e) {
+    var btn = e.target.closest('[data-del-ev]');
+    if (btn) {
+      state.events.splice(parseInt(btn.getAttribute('data-del-ev'), 10), 1);
+      saveState();
+      renderDashboard();
+      renderStorico();
+      showToast('Evento eliminato');
+    }
+  });
+  document.getElementById('storicoYearsList').addEventListener('click', function(e) {
+    var row = e.target.closest('[data-select-year]');
+    if (row) {
+      currentYear = parseInt(row.getAttribute('data-select-year'), 10);
+      syncYearDropdown();
+      switchTab('dashboard');
+    }
+  });
+
+  document.getElementById('toggleDark').addEventListener('change', function() { prefs.dark = this.checked; savePrefs(); applyPrefsUI(); });
+  var visMap = { 'vis-netto': 'netto', 'vis-media': 'media', 'vis-totale': 'totale', 'vis-chart-mensile': 'chartMensile', 'vis-chart-annuale': 'chartAnnuale' };
+  Object.keys(visMap).forEach(function(id) {
+    document.getElementById(id).addEventListener('change', function() { prefs.vis[visMap[id]] = this.checked; savePrefs(); applyPrefsUI(); });
+  });
+
+  document.getElementById('btnDownloadTemplate').addEventListener('click', function() {
+    var lines = ['Anno;Mese;Netto'];
+    for (var i = 0; i < 12; i++) lines.push(currentYear + ';' + MONTHS[i] + ';0.00');
+    downloadFile('Modello_La_Mia_BP_' + currentYear + '.csv', lines.join('\n'), 'text/csv;charset=utf-8;');
+    showToast('Modello CSV scaricato');
+  });
+  document.getElementById('btnImportCsv').addEventListener('click', function() { document.getElementById('csvFileInput').click(); });
+  document.getElementById('csvFileInput').addEventListener('change', function(e) {
+    var file = e.target.files && e.target.files;
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) { importCsvText(ev.target.result || ''); };
+    reader.readAsText(file, 'UTF-8');
+    this.value = '';
+  });
+  document.getElementById('btnExportCsv').addEventListener('click', function() {
+    var years = Object.keys(state.monthly).map(Number).sort(function(a,b){ return a - b; });
+    var lines = ['Anno;Mese;Netto'];
+    years.forEach(function(y) {
+      var arr = state.monthly[y] || [];
+      for (var i = 0; i < 12; i++) {
+        if ((Number(arr[i]) || 0) > 0) lines.push(y + ';' + MONTHS[i] + ';' + Number(arr[i]).toFixed(2));
+      }
+    });
+    downloadFile('Export_La_Mia_BP.csv', lines.join('\n'), 'text/csv;charset=utf-8;');
+    showToast('Dati esportati in CSV');
+  });
+  document.getElementById('btnExportJson').addEventListener('click', function() {
+    downloadFile('Backup_La_Mia_BP.json', JSON.stringify(state, null, 2), 'application/json');
+    showToast('Backup JSON scaricato');
+  });
+  document.getElementById('btnResetAll').addEventListener('click', function() {
+    if (confirm('Vuoi davvero cancellare tutti i dati salvati nell\'app?')) {
+      state = { monthly: {}, events: [] };
+      saveState();
+      syncYearDropdown();
+      renderDashboard();
+      renderStorico();
+      showToast('Tutti i dati sono stati azzerati');
+    }
+  });
+
+  loadAll();
+  applyPrefsUI();
+  syncYearDropdown();
+  renderDashboard();
+})();
+</script>
+</body>
+</html>
