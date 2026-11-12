@@ -313,7 +313,7 @@
     } catch (e) {}
     if (!state.monthly[currentYear]) {
       var yrs = Object.keys(state.monthly).map(Number).sort(function(a,b){return b-a;});
-      if (yrs.length > 0) currentYear = yrs;
+      if (yrs.length > 0) currentYear = yrs.shift();
     }
   }
 
@@ -407,7 +407,9 @@
       }
     });
 
-    var areaD = pathD + ' L ' + pts[pts.length - 1].x.toFixed(1) + ' ' + (padT + plotH) + ' L ' + pts.x.toFixed(1) + ' ' + (padT + plotH) + ' Z';
+    var firstPt = pts.slice(0, 1).pop();
+    var lastPt = pts.slice(-1).pop();
+    var areaD = pathD + ' L ' + lastPt.x.toFixed(1) + ' ' + (padT + plotH) + ' L ' + firstPt.x.toFixed(1) + ' ' + (padT + plotH) + ' Z';
     var gradId = 'lg_' + Math.random().toString(36).substr(2, 6);
 
     var svg = '<svg width="' + w + '" height="' + h + '" viewBox="0 0 ' + w + ' ' + h + '" style="display:block;">';
@@ -446,7 +448,7 @@
     }
 
     if (activeItems.length === 1) {
-      var item = activeItems;
+      var item = activeItems.pop();
       svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + item.color + '"/>';
       svg += '<circle cx="' + cx + '" cy="' + cy + '" r="' + innerR + '" fill="var(--card)"/>';
       legend += '<div class="legend-item"><div class="legend-left"><span class="legend-dot" style="background:' + item.color + '"></span><span>' + item.label + '</span></div><b>100% (' + fmtShort(item.val) + ')</b></div>';
@@ -695,10 +697,13 @@
       var sep = line.indexOf(';') !== -1 ? ';' : ',';
       var parts = line.split(sep).map(function(p) { return p.trim().replace(/^"|"$/g, ''); });
       if (parts.length < 3) continue;
-      var yr = parseInt(parts, 10);
+      var colYear = parts.shift();
+      var colMonth = parts.shift();
+      var colVal = parts.shift();
+      var yr = parseInt(colYear, 10);
       if (isNaN(yr) || yr < 1900 || yr > 2100) continue;
 
-      var mRaw = parts.toLowerCase();
+      var mRaw = colMonth.toLowerCase();
       var mIdx = -1;
       var mNum = parseInt(mRaw, 10);
       if (!isNaN(mNum) && mNum >= 1 && mNum <= 12) {
@@ -713,7 +718,7 @@
       }
       if (mIdx === -1) continue;
 
-      var val = parseNumberInput(parts);
+      var val = parseNumberInput(colVal);
       if (isNaN(val)) continue;
 
       if (!state.monthly[yr]) state.monthly[yr] = makeZeroYear();
@@ -839,7 +844,7 @@
   });
   document.getElementById('btnImportCsv').addEventListener('click', function() { document.getElementById('csvFileInput').click(); });
   document.getElementById('csvFileInput').addEventListener('change', function(e) {
-    var file = e.target.files && e.target.files;
+    var file = e.target.files && e.target.files.item(0);
     if (!file) return;
     var reader = new FileReader();
     reader.onload = function(ev) { importCsvText(ev.target.result || ''); };
