@@ -5,645 +5,1316 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="La Mia BP">
-<meta name="theme-color" content="#F2F2F7">
+<meta name="apple-mobile-web-app-title" content="La Mia BP new">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>La Mia BP new</title>
 <style>
-:root {
-  --bg: #F2F2F7;
-  --card: #FFFFFF;
-  --text: #1C1C1E;
-  --sub: #8E8E93;
-  --sep: #E5E5EA;
-  --blue: #007AFF;
-  --green: #34C759;
-  --orange: #FF9500;
-  --indigo: #5856D6;
-  --red: #FF3B30;
-  --pill: #E5E5EA;
-  --tab-bg: rgba(255,255,255,0.92);
+  :root {
+    --bg: #F2F2F7;
+    --card: #FFFFFF;
+    --text: #1C1C1E;
+    --subtext: #8E8E93;
+    --border: #E5E5EA;
+    --blue: #007AFF;
+    --green: #34C759;
+    --orange: #FF9500;
+    --indigo: #5856D6;
+    --red: #FF3B30;
+    --pill-bg: #E5F1FF;
+    --tab-bg: rgba(255, 255, 255, 0.92);
+    --input-bg: #F2F2F7;
+  }
+  body.dark {
+    --bg: #000000;
+    --card: #1C1C1E;
+    --text: #FFFFFF;
+    --subtext: #98989D;
+    --border: #2C2C2E;
+    --pill-bg: #1C2B3A;
+    --tab-bg: rgba(28, 28, 30, 0.92);
+    --input-bg: #2C2C2E;
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  }
+  body {
+    margin: 0;
+    padding: env(safe-area-inset-top) 0 calc(84px + env(safe-area-inset-bottom)) 0;
+    background-color: var(--bg);
+    color: var(--text);
+    transition: background-color 0.25s, color 0.25s;
+  }
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    gap: 10px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+  .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .year-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--pill-bg);
+    color: var(--blue);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 28px 8px 14px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://w3.org' viewBox='0 0 24 24' fill='none' stroke='%23007AFF' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 9px center;
+    background-size: 14px;
+  }
+  .add-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--blue);
+    color: #FFFFFF;
+    border: none;
+    font-size: 22px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+  }
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .card {
+    background-color: var(--card);
+    border-radius: 16px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .kpi-grid .card { margin-bottom: 0; }
+  .accent-top {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .accent-green { background-color: var(--green); }
+  .accent-orange { background-color: var(--orange); }
+  .accent-indigo { background-color: var(--indigo); }
+  .card-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .card-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--subtext);
+  }
+  .card-value {
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin: 2px 0 0 0;
+  }
+  .total-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sigma-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: rgba(88, 86, 214, 0.12);
+    color: var(--indigo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .events-banner {
+    background-color: var(--pill-bg);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0, 122, 255, 0.2);
+  }
+  .events-banner-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 6px;
+    letter-spacing: 0.4px;
+  }
+  .event-chip {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    font-size: 14px;
+    border-bottom: 1px solid rgba(0, 122, 255, 0.1);
+  }
+  .event-chip:last-child { border-bottom: none; padding-bottom: 0; }
+  .event-val-badge {
+    background-color: rgba(52, 199, 89, 0.16);
+    color: var(--green);
+    font-weight: 700;
+    font-size: 13px;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chart-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+  }
+  .chart-type-pills {
+    display: flex;
+    background-color: var(--input-bg);
+    padding: 2px;
+    border-radius: 10px;
+    gap: 2px;
+  }
+  .chart-pill {
+    border: none;
+    background: transparent;
+    color: var(--subtext);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .chart-pill.active {
+    background-color: var(--card);
+    color: var(--blue);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+  .chart-touch-area {
+    cursor: pointer;
+    user-select: none;
+  }
+  .chart-hint {
+    font-size: 11px;
+    color: var(--subtext);
+    text-align: right;
+    margin-top: 6px;
+  }
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 155px;
+    padding-top: 22px;
+    gap: 4px;
+  }
+  .bar-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+    min-width: 0;
+  }
+  .bar-val {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--subtext);
+    margin-bottom: 4px;
+    white-space: nowrap;
+  }
+  .bar-fill {
+    width: 100%;
+    max-width: 24px;
+    background: linear-gradient(180deg, #0A84FF 0%, #0066CC 100%);
+    border-radius: 6px 6px 3px 3px;
+    min-height: 4px;
+    transition: height 0.3s ease;
+  }
+  .bar-fill.highlight {
+    background: linear-gradient(180deg, #34C759 0%, #248A3D 100%);
+  }
+  .bar-lbl {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--subtext);
+    margin-top: 6px;
+  }
+  .annual-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+  }
+  .annual-scroll .bar-chart {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+  .annual-scroll .bar-col {
+    flex: 0 0 46px;
+  }
+  .pie-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 0;
+  }
+  .pie-legend {
+    flex: 1;
+    max-height: 150px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .legend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+  }
+  .legend-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .empty-state {
+    text-align: center;
+    padding: 28px 12px;
+    color: var(--subtext);
+    font-size: 14px;
+  }
+  .view { display: none; }
+  .view.active { display: block; }
+  .section-header {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--subtext);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 18px 4px 8px 4px;
+  }
+  .list-card {
+    background-color: var(--card);
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .list-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+  }
+  .list-row:last-child { border-bottom: none; }
+  .list-row.clickable { cursor: pointer; }
+  .row-sub {
+    font-size: 12px;
+    color: var(--subtext);
+    margin-top: 2px;
+  }
+  .del-btn {
+    background: rgba(255, 59, 48, 0.12);
+    color: var(--red);
+    border: none;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: 8px;
+  }
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #E9E9EA;
+    transition: .25s;
+    border-radius: 28px;
+  }
+  body.dark .slider { background-color: #39393D; }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .25s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  input:checked + .slider { background-color: var(--green); }
+  input:checked + .slider:before { transform: translateX(20px); }
+  .action-btn {
+    width: 100%;
+    padding: 13px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: var(--blue);
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    display: block;
+  }
+  .action-btn:last-child { border-bottom: none; }
+  .action-btn.danger { color: var(--red); }
+  .csv-example {
+    background-color: var(--input-bg);
+    border-radius: 10px;
+Usa il codice con cautela.
+padding: 10px 12px;
+font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+font-size: 12px;
+color: var(--text);
+margin: 8px 16px 12px 16px;
+line-height: 1.5;
+overflow-x: auto;
 }
-body.dark {
-  --bg: #000000;
-  --card: #1C1C1E;
-  --text: #FFFFFF;
-  --sub: #98989D;
-  --sep: #38383A;
-  --pill: #2C2C2E;
-  --tab-bg: rgba(28,28,30,0.92);
+.footer-credit {
+text-align: center;
+font-size: 12px;
+color: var(--subtext);
+margin: 24px 0 12px 0;
 }
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif; }
-body { margin: 0; background: var(--bg); color: var(--text); padding-bottom: calc(82px + env(safe-area-inset-bottom)); transition: background 0.25s, color 0.25s; }
-.header { padding: calc(16px + env(safe-area-inset-top)) 18px 12px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: var(--bg); z-index: 20; }
-.title { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0; }
-.header-actions { display: flex; gap: 10px; align-items: center; }
-.year-select { appearance: none; -webkit-appearance: none; background: rgba(0,122,255,0.14); color: var(--blue); border: none; border-radius: 18px; padding: 7px 14px; font-size: 15px; font-weight: 700; cursor: pointer; }
-.add-btn { width: 34px; height: 34px; border-radius: 50%; background: var(--blue); color: #fff; border: none; font-size: 22px; font-weight: 500; display: flex; align-items: center; justify-content: center; cursor: pointer; line-height: 1; box-shadow: 0 2px 8px rgba(0,122,255,0.35); }
-.container { padding: 0 16px; max-width: 600px; margin: 0 auto; }
-.view { display: none; }
-.view.active { display: block; }
-.kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-.card { background: var(--card); border-radius: 16px; padding: 14px 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 12px; position: relative; overflow: hidden; }
-.card-accent { position: absolute; top: 0; left: 0; right: 0; height: 4px; }
-.kpi-label { font-size: 12px; font-weight: 600; color: var(--sub); display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-.kpi-val { font-size: 21px; font-weight: 800; letter-spacing: -0.4px; }
-.kpi-full { display: flex; justify-content: space-between; align-items: center; }
-.badge-icon { width: 36px; height: 36px; border-radius: 50%; background: rgba(88,86,214,0.14); color: var(--indigo); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 17px; }
-.chart-title { font-size: 15px; font-weight: 700; margin: 0 0 12px 0; }
-.bars-wrap { display: flex; align-items: flex-end; justify-content: space-between; height: 150px; padding-top: 22px; gap: 4px; border-bottom: 1px solid var(--sep); }
-.bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; }
-.bar { width: 100%; max-width: 22px; background: var(--blue); border-radius: 5px 5px 2px 2px; min-height: 3px; transition: height 0.3s ease; }
-.bar-val { font-size: 9px; color: var(--sub); margin-bottom: 3px; font-weight: 600; }
-.bar-lbl { font-size: 11px; color: var(--sub); margin-top: 6px; font-weight: 600; }
-.event-banner { background: rgba(0,122,255,0.1); border-left: 4px solid var(--blue); border-radius: 12px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; }
-.event-item { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
-.event-tag { background: rgba(52,199,89,0.16); color: var(--green); font-weight: 700; padding: 2px 8px; border-radius: 8px; font-size: 12px; }
-.list-group { background: var(--card); border-radius: 14px; overflow: hidden; margin-bottom: 16px; }
-.list-row { display: flex; justify-content: space-between; align-items: center; padding: 13px 16px; border-bottom: 1px solid var(--sep); font-size: 15px; }
-.list-row:last-child { border-bottom: none; }
-.section-hdr { font-size: 13px; font-weight: 600; color: var(--sub); text-transform: uppercase; margin: 16px 8px 6px; }
-.tab-bar { position: fixed; bottom: 0; left: 0; right: 0; height: calc(64px + env(safe-area-inset-bottom)); padding-bottom: env(safe-area-inset-bottom); background: var(--tab-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-top: 1px solid var(--sep); display: flex; justify-content: space-around; align-items: center; z-index: 30; }
-.tab-btn { background: none; border: none; color: var(--sub); display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; font-weight: 600; cursor: pointer; padding: 6px 12px; }
-.tab-btn.active { color: var(--blue); }
-.tab-ico { font-size: 20px; line-height: 1; }
-.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: none; align-items: flex-end; justify-content: center; z-index: 50; }
+.tab-bar {
+position: fixed;
+bottom: 0; left: 0; right: 0;
+background-color: var(--tab-bg);
+backdrop-filter: blur(16px);
+-webkit-backdrop-filter: blur(16px);
+border-top: 1px solid var(--border);
+display: flex;
+justify-content: space-around;
+padding: 8px 0 calc(8px + env(safe-area-inset-bottom)) 0;
+z-index: 100;
+}
+.tab-item {
+background: none;
+border: none;
+color: var(--subtext);
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 3px;
+font-size: 10px;
+font-weight: 600;
+cursor: pointer;
+padding: 2px 12px;
+}
+.tab-item.active { color: var(--blue); }
+.tab-icon { font-size: 20px; line-height: 1; }
+.modal-backdrop {
+position: fixed;
+top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(0, 0, 0, 0.45);
+display: none;
+align-items: flex-end;
+justify-content: center;
+z-index: 200;
+}
 .modal-backdrop.open { display: flex; }
-.modal-sheet { background: var(--card); width: 100%; max-width: 540px; border-radius: 22px 22px 0 0; padding: 18px 20px calc(26px + env(safe-area-inset-bottom)); animation: slideUp 0.22s ease; }
-@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
-.modal-hdr { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.modal-sheet {
+background-color: var(--card);
+width: 100%;
+max-width: 540px;
+border-radius: 22px 22px 0 0;
+padding: 18px 20px calc(24px + env(safe-area-inset-bottom)) 20px;
+box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.2);
+}
+.modal-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 16px;
+}
 .modal-title { font-size: 18px; font-weight: 700; }
-.btn-text { background: none; border: none; color: var(--blue); font-size: 16px; font-weight: 600; cursor: pointer; }
-.seg-ctrl { display: flex; background: var(--pill); border-radius: 10px; padding: 3px; margin-bottom: 16px; }
-.seg-btn { flex: 1; border: none; background: none; padding: 7px; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--text); cursor: pointer; }
-.seg-btn.active { background: var(--card); box-shadow: 0 1px 4px rgba(0,0,0,0.12); }
-.field { margin-bottom: 14px; }
-.field label { display: block; font-size: 13px; font-weight: 600; color: var(--sub); margin-bottom: 5px; }
-.field input, .field select { width: 100%; padding: 11px 13px; border-radius: 11px; border: 1px solid var(--sep); background: var(--bg); color: var(--text); font-size: 16px; }
-.btn-primary { width: 100%; background: var(--blue); color: #fff; border: none; border-radius: 13px; padding: 13px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 6px; }
-.btn-secondary { width: 100%; background: rgba(0,122,255,0.12); color: var(--blue); border: none; border-radius: 11px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-.btn-danger { width: 100%; background: rgba(255,59,48,0.12); color: var(--red); border: none; border-radius: 11px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 8px; }
-.switch { position: relative; display: inline-block; width: 48px; height: 28px; }
-.switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; inset: 0; background: #ccc; border-radius: 28px; transition: .25s; }
-.slider:before { position: absolute; content: ""; height: 24px; width: 24px; left: 2px; bottom: 2px; background: white; border-radius: 50%; transition: .25s; }
-input:checked + .slider { background: var(--green); }
-input:checked + .slider:before { transform: translateX(20px); }
-.csv-box { background: var(--bg); border-radius: 10px; padding: 10px 12px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--sub); overflow-x: auto; margin: 8px 0; line-height: 1.45; }
-.footer-credit { text-align: center; font-size: 12px; color: var(--sub); margin: 22px 0 12px; font-weight: 500; }
-.empty-hint { text-align: center; color: var(--sub); font-size: 14px; padding: 22px 12px; }
-</style>
-</head>
-<body>
+.close-btn {
+background: var(--input-bg);
+border: none;
+color: var(--text);
+border-radius: 16px;
+padding: 6px 12px;
+font-size: 13px;
+font-weight: 600;
+cursor: pointer;
+}
+.segmented {
+display: flex;
+background-color: var(--input-bg);
+border-radius: 10px;
+padding: 3px;
+margin-bottom: 16px;
+}
+.seg-btn {
+flex: 1;
+border: none;
+background: transparent;
+color: var(--text);
+padding: 8px;
+font-size: 14px;
+font-weight: 600;
+border-radius: 8px;
+cursor: pointer;
+}
+.seg-btn.active {
+background-color: var(--card);
+box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+}
+.form-group { margin-bottom: 14px; }
+.form-label {
+display: block;
+font-size: 13px;
+font-weight: 600;
+color: var(--subtext);
+margin-bottom: 6px;
+}
+.form-input {
+width: 100%;
+padding: 12px 14px;
+border-radius: 12px;
+border: 1px solid var(--border);
+background-color: var(--input-bg);
+color: var(--text);
+font-size: 16px;
+}
+.save-btn {
+width: 100%;
+padding: 14px;
+border-radius: 14px;
+border: none;
+background-color: var(--blue);
+color: #FFFFFF;
+font-size: 16px;
+font-weight: 600;
+cursor: pointer;
+margin-top: 6px;
+}
+.toast {
+position: fixed;
+top: calc(16px + env(safe-area-inset-top));
+left: 50%;
+transform: translateX(-50%);
+background-color: #1C1C1E;
+color: #FFFFFF;
+padding: 10px 18px;
+border-radius: 20px;
+font-size: 14px;
+font-weight: 500;
+z-index: 300;
+display: none;
+box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
 
-<div class="header">
-  <h1 class="title">La Mia BP new</h1>
-  <div class="header-actions">
-    <select id="yearSelect" class="year-select" aria-label="Seleziona Anno"></select>
-    <button id="topAddBtn" class="add-btn" aria-label="Aggiungi">+</button>
-  </div>
-</div>
 
-<div class="container">
-  <!-- VIEW 1: DASHBOARD -->
-  <div id="view-dashboard" class="view active">
-    <div id="eventsBox" class="event-banner" style="display:none;"></div>
+La Mia BP new
 
-    <div class="kpi-grid">
-      <div id="card-netto" class="card">
-        <div class="card-accent" style="background:var(--green);"></div>
-        <div class="kpi-label"><span>Netto a Pagare</span><span style="color:var(--green);">↗</span></div>
-        <div id="kpiNetto" class="kpi-val">€ 0</div>
-      </div>
-      <div id="card-media" class="card">
-        <div class="card-accent" style="background:var(--orange);"></div>
-        <div class="kpi-label"><span>Media Mensile</span><span style="color:var(--orange);">📅</span></div>
-        <div id="kpiMedia" class="kpi-val">€ 0</div>
-      </div>
-    </div>
 
-    <div id="card-totale" class="card">
-      <div class="kpi-full">
-        <div>
-          <div class="kpi-label">Totale Storico Netti</div>
-          <div id="kpiTotale" class="kpi-val" style="font-size:24px;">€ 0</div>
-        </div>
-        <div class="badge-icon">Σ</div>
-      </div>
-    </div>
++
 
-    <div id="card-chart-mensile" class="card">
-      <h3 id="monthlyChartTitle" class="chart-title">Andamento Mensile</h3>
-      <div id="monthlyBars" class="bars-wrap"></div>
-    </div>
+Eventi & Scatti dell'Anno
 
-    <div id="card-chart-annuo" class="card">
-      <h3 id="yearlyChartTitle" class="chart-title">Totale Netto Annuo</h3>
-      <div id="yearlyBars" class="bars-wrap"></div>
-    </div>
-  </div>
+Netto a Pagare
+↗
 
-  <!-- VIEW 2: STORICO -->
-  <div id="view-storico" class="view">
-    <div id="storicoYearHdr" class="section-hdr">Dettaglio Mensile</div>
-    <div id="storicoMonthsList" class="list-group"></div>
+€ 0
+Media Mensile
+📅
 
-    <div class="section-hdr">Eventi dell'Anno</div>
-    <div id="storicoEventsList" class="list-group"></div>
+€ 0
 
-    <div class="section-hdr">Riepilogo Tutti gli Anni</div>
-    <div id="storicoYearsList" class="list-group"></div>
-  </div>
+Totale Storico Netti
+€ 0
 
-  <!-- VIEW 3: IMPOSTAZIONI -->
-  <div id="view-impostazioni" class="view">
-    <div class="section-hdr">Aspetto</div>
-    <div class="list-group">
-      <div class="list-row">
-        <span>Dark Mode</span>
-        <label class="switch"><input type="checkbox" id="darkToggle"><span class="slider"></span></label>
-      </div>
-    </div>
+Σ
+Andamento Mensile
 
-    <div class="section-hdr">Personalizzazione Dashboard</div>
-    <div class="list-group">
-      <div class="list-row"><span>Netto a Pagare</span><label class="switch"><input type="checkbox" data-vis="card-netto" checked><span class="slider"></span></label></div>
-      <div class="list-row"><span>Media Mensile</span><label class="switch"><input type="checkbox" data-vis="card-media" checked><span class="slider"></span></label></div>
-      <div class="list-row"><span>Totale Storico Netti</span><label class="switch"><input type="checkbox" data-vis="card-totale" checked><span class="slider"></span></label></div>
-      <div class="list-row"><span>Grafico Andamento Mensile</span><label class="switch"><input type="checkbox" data-vis="card-chart-mensile" checked><span class="slider"></span></label></div>
-      <div class="list-row"><span>Grafico Totale Netto Annuo</span><label class="switch"><input type="checkbox" data-vis="card-chart-annuo" checked><span class="slider"></span></label></div>
-    </div>
+Barre
+Linea
+Torta
 
-    <div class="section-hdr">Importa ed Esporta Dati (CSV / JSON)</div>
-    <div class="card">
-      <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Esempio formato file CSV supportato:</div>
-      <div class="csv-box">Anno;Mese;Netto<br>2025;Gennaio;2817.00<br>2025;Luglio;6558.00<br>2026;Gennaio;2861.00</div>
-      <button id="downloadTemplateBtn" class="btn-secondary">Scarica Modello CSV Vuoto</button>
-      <button id="triggerCsvBtn" class="btn-secondary">Carica File CSV Esistente</button>
-      <input type="file" id="csvFileInput" accept=".csv,text/csv" style="display:none;">
-      <button id="exportCsvBtn" class="btn-secondary">Esporta Tutti i Dati in CSV</button>
-      <button id="exportJsonBtn" class="btn-secondary">Scarica Backup Completo (.JSON)</button>
-      <button id="resetDataBtn" class="btn-danger">Azzera Tutti i Dati</button>
-    </div>
 
-    <div class="footer-credit">Created By Gambicchia Marcello (2026)</div>
-  </div>
-</div>
 
-<!-- BOTTOM TAB BAR -->
-<nav class="tab-bar">
-  <button class="tab-btn active" data-tab="dashboard"><span class="tab-ico">⊞</span><span>Dashboard</span></button>
-  <button class="tab-btn" data-tab="storico"><span class="tab-ico">🕒</span><span>Storico</span></button>
-  <button class="tab-btn" id="tabAddBtn"><span class="tab-ico">⊕</span><span>Aggiungi</span></button>
-  <button class="tab-btn" data-tab="impostazioni"><span class="tab-ico">⚙️</span><span>Impostazioni</span></button>
-</nav>
 
-<!-- MODAL SHEET -->
-<div id="addModal" class="modal-backdrop">
-  <div class="modal-sheet">
-    <div class="modal-hdr">
-      <button id="closeModalBtn" class="btn-text">Annulla</button>
-      <span class="modal-title">Nuovo Inserimento</span>
-      <span style="width:54px;"></span>
-    </div>
 
-    <div class="seg-ctrl">
-      <button id="segNetto" class="seg-btn active">Netto Mensile</button>
-      <button id="segEvento" class="seg-btn">Evento (€)</button>
-    </div>
+Tocca il grafico per cambiare stile
+Totale Netto Annuo
 
-    <div id="formNetto">
-      <div class="field">
-        <label for="inYear">Anno</label>
-        <input type="number" id="inYear" min="2000" max="2099" value="2026">
-      </div>
-      <div class="field">
-        <label for="inMonth">Mese</label>
-        <select id="inMonth">
-          <option value="0">Gennaio</option><option value="1">Febbraio</option><option value="2">Marzo</option>
-          <option value="3">Aprile</option><option value="4">Maggio</option><option value="5">Giugno</option>
-          <option value="6">Luglio</option><option value="7">Agosto</option><option value="8">Settembre</option>
-          <option value="9">Ottobre</option><option value="10">Novembre</option><option value="11">Dicembre</option>
-        </select>
-      </div>
-      <div class="field">
-        <label for="inAmount">Totale Netto a Pagare (€)</label>
-        <input type="number" id="inAmount" step="0.01" placeholder="Es. 2850.00">
-      </div>
-      <button id="saveNettoBtn" class="btn-primary">Salva Netto Mensile</button>
-    </div>
+Barre
+Linea
+Torta
 
-    <div id="formEvento" style="display:none;">
-      <div class="field">
-        <label for="evYear">Anno</label>
-        <input type="number" id="evYear" min="2000" max="2099" value="2026">
-      </div>
-      <div class="field">
-        <label for="evDesc">Descrizione Evento</label>
-        <input type="text" id="evDesc" placeholder="Es. Scatto livello, Una Tantum, Premio">
-      </div>
-      <div class="field">
-        <label for="evAmount">Valore in Euro (€) - opzionale</label>
-        <input type="number" id="evAmount" step="0.01" placeholder="Es. 307.39">
-      </div>
-      <button id="saveEventoBtn" class="btn-primary">Salva Evento</button>
-    </div>
-  </div>
-</div>
 
-<script>
+
+
+
+Tocca il grafico per cambiare stile • Scorri per tutti gli anni
+
+Dettaglio Mensile
+Eventi dell'Anno
+Riepilogo Tutti gli Anni
+
+Aspetto
+
+
+Dark Mode
+Personalizzazione Dashboard
+
+
+Netto a Pagare
+Media Mensile
+Totale Storico Netti
+Grafico Andamento Mensile
+Grafico Totale Netto Annuo
+Importa ed Esporta Dati (CSV / JSON)
+
+
+Esempio formato file CSV supportato (separatore ; o ,):
+
+Anno;Mese;Netto
+2025;Gennaio;2817.00
+2025;Luglio;6558.00
+2026;Gennaio;2861.00
+Scarica Modello CSV Vuoto
+Carica File CSV Esistente
+
+Esporta Tutti i Dati in CSV
+Scarica Backup Completo (.JSON)
+Azzera Tutti i Dati
+Created By Gambicchia Marcello (2026)
+
+⊞
+Dashboard
+
+
+🕒
+Storico
+
+
+⊕
+Aggiungi
+
+
+⚙
+Impostazioni
+
+Nuovo Inserimento
+Annulla
+Netto Mensile
+Evento (€)
+Anno
+Mese
+Gennaio
+Febbraio
+Marzo
+Aprile
+Maggio
+Giugno
+Luglio
+Agosto
+Settembre
+Ottobre
+Novembre
+Dicembre
+
+
+Totale Netto a Pagare (€)
+Salva Netto Mensile
+Anno
+Descrizione Evento
+Valore in Euro (€) - opzionale
+Salva Evento
+
+
 (function() {
-  const MONTHS = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
-  const SHORT_M = ["G","F","M","A","M","G","L","A","S","O","N","D"];
-  const STORAGE_KEY = "la_mia_bp_new_v1";
-
-  let state = {
-    selectedYear: new Date().getFullYear(),
-    records: {},
-    events: [],
-    dark: false,
-    visibility: {
-      "card-netto": true,
-      "card-media": true,
-      "card-totale": true,
-      "card-chart-mensile": true,
-      "card-chart-annuo": true
-    }
-  };
-
-  function loadState() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        state = Object.assign(state, parsed);
-      }
-    } catch (e) {}
-  }
-
-  function saveState() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    } catch (e) {}
-  }
-
-  function fmtEur(val) {
-    return "€ " + Math.round(val).toLocaleString("it-IT");
-  }
-
-  function fmtEurDec(val) {
-    return "€ " + Number(val).toLocaleString("it-IT", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
-  function getAvailableYears() {
-    const yrs = new Set([new Date().getFullYear(), Number(state.selectedYear)]);
-    Object.keys(state.records).forEach(y => yrs.add(Number(y)));
-    state.events.forEach(ev => yrs.add(Number(ev.year)));
-    return Array.from(yrs).sort((a, b) => b - a);
-  }
-
-  function renderAll() {
-    document.body.classList.toggle("dark", !!state.dark);
-    document.getElementById("darkToggle").checked = !!state.dark;
-
-    Object.keys(state.visibility).forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = state.visibility[id] ? "" : "none";
-      const chk = document.querySelector('input[data-vis="' + id + '"]');
-      if (chk) chk.checked = !!state.visibility[id];
-    });
-
-    const years = getAvailableYears();
-    if (!years.includes(Number(state.selectedYear))) {
-      state.selectedYear = years[0];
-    }
-
-    const sel = document.getElementById("yearSelect");
-    sel.innerHTML = "";
-    years.forEach(y => {
-      const opt = document.createElement("option");
-      opt.value = y;
-      opt.textContent = y;
-      if (y === Number(state.selectedYear)) opt.selected = true;
-      sel.appendChild(opt);
-    });
-
-    const y = Number(state.selectedYear);
-    const arr = state.records[y] || Array(12).fill(null);
-    let yearSum = 0;
-    let activeMonths = 0;
-    arr.forEach(v => {
-      if (v !== null && !isNaN(v) && Number(v) > 0) {
-        yearSum += Number(v);
-        activeMonths++;
-      }
-    });
-    const avg = activeMonths > 0 ? yearSum / activeMonths : 0;
-
-    let allTimeSum = 0;
-    Object.values(state.records).forEach(mArr => {
-      (mArr || []).forEach(v => {
-        if (v !== null && !isNaN(v)) allTimeSum += Number(v);
-      });
-    });
-
-    document.getElementById("kpiNetto").textContent = fmtEur(yearSum);
-    document.getElementById("kpiMedia").textContent = fmtEur(avg);
-    document.getElementById("kpiTotale").textContent = fmtEur(allTimeSum);
-
-    // Events banner
-    const yearEvents = state.events.filter(ev => Number(ev.year) === y);
-    const evBox = document.getElementById("eventsBox");
-    if (yearEvents.length > 0) {
-      evBox.style.display = "block";
-      evBox.innerHTML = yearEvents.map(ev => {
-        const tag = ev.amount > 0 ? '<span class="event-tag">+' + fmtEurDec(ev.amount) + '</span>' : '';
-        return '<div class="event-item"><strong>📌 ' + escapeHtml(ev.desc) + '</strong>' + tag + '</div>';
-      }).join("");
-    } else {
-      evBox.style.display = "none";
-    }
-
-    // Monthly Chart
-    document.getElementById("monthlyChartTitle").textContent = "Andamento Mensile " + y;
-    const mBars = document.getElementById("monthlyBars");
-    const maxM = Math.max(1, ...arr.map(v => Number(v) || 0));
-    mBars.innerHTML = "";
-    for (let i = 0; i < 12; i++) {
-      const val = Number(arr[i]) || 0;
-      const pct = val > 0 ? Math.max(6, Math.round((val / maxM) * 100)) : 2;
-      const col = document.createElement("div");
-      col.className = "bar-col";
-      const lblVal = val > 0 ? (val >= 1000 ? (val / 1000).toFixed(1) + "k" : Math.round(val)) : "";
-      col.innerHTML = '<div class="bar-val">' + lblVal + '</div><div class="bar" style="height:' + pct + '%;opacity:' + (val > 0 ? 1 : 0.2) + '"></div><div class="bar-lbl">' + SHORT_M[i] + '</div>';
-      mBars.appendChild(col);
-    }
-
-    // Yearly Chart
-    const sortedAsc = [...years].sort((a, b) => a - b);
-    const yTotals = sortedAsc.map(yr => {
-      const mArr = state.records[yr] || [];
-      return mArr.reduce((acc, v) => acc + (Number(v) || 0), 0);
-    });
-    const maxY = Math.max(1, ...yTotals);
-    document.getElementById("yearlyChartTitle").textContent = "Totale Netto Annuo (" + sortedAsc[0] + "–" + sortedAsc[sortedAsc.length - 1] + ")";
-    const yBars = document.getElementById("yearlyBars");
-    yBars.innerHTML = "";
-    sortedAsc.forEach((yr, idx) => {
-      const val = yTotals[idx];
-      const pct = val > 0 ? Math.max(6, Math.round((val / maxY) * 100)) : 2;
-      const col = document.createElement("div");
-      col.className = "bar-col";
-      const lblVal = val > 0 ? (val >= 1000 ? (val / 1000).toFixed(1) + "k" : Math.round(val)) : "";
-      const activeColor = yr === y ? "var(--green)" : "var(--blue)";
-      col.innerHTML = '<div class="bar-val">' + lblVal + '</div><div class="bar" style="height:' + pct + '%;background:' + activeColor + ';opacity:' + (val > 0 ? 1 : 0.2) + '"></div><div class="bar-lbl">' + String(yr).slice(-2) + '</div>';
-      yBars.appendChild(col);
-    });
-
-    // Storico View
-    document.getElementById("storicoYearHdr").textContent = "Dettaglio Mensile " + y;
-    const mList = document.getElementById("storicoMonthsList");
-    mList.innerHTML = "";
-    MONTHS.forEach((mName, idx) => {
-      const val = arr[idx];
-      const row = document.createElement("div");
-      row.className = "list-row";
-      row.style.cursor = "pointer";
-      row.innerHTML = '<span>' + mName + '</span><strong style="color:' + (val > 0 ? "var(--text)" : "var(--sub)") + '">' + (val > 0 ? fmtEurDec(val) : "—") + '</strong>';
-      row.addEventListener("click", () => {
-        openModal("netto", y, idx, val || "");
-      });
-      mList.appendChild(row);
-    });
-
-    const evList = document.getElementById("storicoEventsList");
-    evList.innerHTML = "";
-    if (yearEvents.length === 0) {
-      evList.innerHTML = '<div class="empty-hint">Nessun evento registrato per il ' + y + '</div>';
-    } else {
-      yearEvents.forEach(ev => {
-        const row = document.createElement("div");
-        row.className = "list-row";
-        const amtText = ev.amount > 0 ? " (+" + fmtEurDec(ev.amount) + ")" : "";
-        row.innerHTML = '<span>' + escapeHtml(ev.desc) + amtText + '</span><button class="btn-text" style="color:var(--red);font-size:14px;">Elimina</button>';
-        row.querySelector("button").addEventListener("click", () => {
-          state.events = state.events.filter(item => item.id !== ev.id);
-          saveState();
-          renderAll();
-        });
-        evList.appendChild(row);
-      });
-    }
-
-    const yList = document.getElementById("storicoYearsList");
-    yList.innerHTML = "";
-    years.forEach(yr => {
-      const tot = (state.records[yr] || []).reduce((acc, v) => acc + (Number(v) || 0), 0);
-      const row = document.createElement("div");
-      row.className = "list-row";
-      row.innerHTML = '<span>Anno ' + yr + '</span><strong>' + fmtEurDec(tot) + '</strong>';
-      yList.appendChild(row);
-    });
-  }
-
-  function escapeHtml(str) {
-    return String(str).replace(/[&<>"']/g, s => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[s]));
-  }
-
-  function switchTab(tabName) {
-    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-    const view = document.getElementById("view-" + tabName);
-    if (view) view.classList.add("active");
-    const btn = document.querySelector('.tab-btn[data-tab="' + tabName + '"]');
-    if (btn) btn.classList.add("active");
-  }
-
-  function openModal(mode = "netto", year = state.selectedYear, monthIdx = 0, amount = "") {
-    document.getElementById("inYear").value = year;
-    document.getElementById("inMonth").value = monthIdx;
-    document.getElementById("inAmount").value = amount;
-    document.getElementById("evYear").value = year;
-    document.getElementById("evDesc").value = "";
-    document.getElementById("evAmount").value = "";
-    setModalMode(mode);
-    document.getElementById("addModal").classList.add("open");
-  }
-
-  function closeModal() {
-    document.getElementById("addModal").classList.remove("open");
-  }
-
-  function setModalMode(mode) {
-    const isNetto = mode === "netto";
-    document.getElementById("segNetto").classList.toggle("active", isNetto);
-    document.getElementById("segEvento").classList.toggle("active", !isNetto);
-    document.getElementById("formNetto").style.display = isNetto ? "block" : "none";
-    document.getElementById("formEvento").style.display = isNetto ? "none" : "block";
-  }
-
-  function downloadFile(filename, content, mime) {
-    const blob = new Blob([content], { type: mime });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
-
-  function parseMonthToken(tok) {
-    const clean = String(tok).trim().toLowerCase();
-    const num = parseInt(clean, 10);
-    if (!isNaN(num) && num >= 1 && num <= 12) return num - 1;
-    return MONTHS.findIndex(m => m.toLowerCase().startsWith(clean.slice(0, 3)));
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    loadState();
-    renderAll();
-
-    document.getElementById("yearSelect").addEventListener("change", e => {
-      state.selectedYear = Number(e.target.value);
-      saveState();
-      renderAll();
-    });
-
-    document.querySelectorAll(".tab-btn[data-tab]").forEach(btn => {
-      btn.addEventListener("click", () => switchTab(btn.getAttribute("data-tab")));
-    });
-
-    document.getElementById("topAddBtn").addEventListener("click", () => openModal("netto"));
-    document.getElementById("tabAddBtn").addEventListener("click", () => openModal("netto"));
-    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
-    document.getElementById("addModal").addEventListener("click", e => {
-      if (e.target.id === "addModal") closeModal();
-    });
-
-    document.getElementById("segNetto").addEventListener("click", () => setModalMode("netto"));
-    document.getElementById("segEvento").addEventListener("click", () => setModalMode("evento"));
-
-    document.getElementById("saveNettoBtn").addEventListener("click", () => {
-      const y = parseInt(document.getElementById("inYear").value, 10);
-      const m = parseInt(document.getElementById("inMonth").value, 10);
-      const rawAmt = document.getElementById("inAmount").value.replace(",", ".");
-      const amt = parseFloat(rawAmt);
-      if (isNaN(y) || y < 1990 || y > 2100) return alert("Inserisci un anno valido.");
-      if (!state.records[y]) state.records[y] = Array(12).fill(null);
-      state.records[y][m] = (!isNaN(amt) && amt > 0) ? amt : null;
-      state.selectedYear = y;
-      saveState();
-      renderAll();
-      closeModal();
-    });
-
-    document.getElementById("saveEventoBtn").addEventListener("click", () => {
-      const y = parseInt(document.getElementById("evYear").value, 10);
-      const desc = document.getElementById("evDesc").value.trim();
-      const rawAmt = document.getElementById("evAmount").value.replace(",", ".");
-      const amt = parseFloat(rawAmt);
-      if (isNaN(y) || !desc) return alert("Inserisci anno e descrizione dell'evento.");
-      state.events.push({
-        id: Date.now(),
-        year: y,
-        desc: desc,
-        amount: !isNaN(amt) ? amt : 0
-      });
-      state.selectedYear = y;
-      saveState();
-      renderAll();
-      closeModal();
-    });
-
-    document.getElementById("darkToggle").addEventListener("change", e => {
-      state.dark = e.target.checked;
-      saveState();
-      renderAll();
-    });
-
-    document.querySelectorAll("input[data-vis]").forEach(chk => {
-      chk.addEventListener("change", e => {
-        const key = e.target.getAttribute("data-vis");
-        state.visibility[key] = e.target.checked;
-        saveState();
-        renderAll();
-      });
-    });
-
-    document.getElementById("downloadTemplateBtn").addEventListener("click", () => {
-      const y = state.selectedYear;
-      const lines = ["Anno;Mese;Netto"];
-      MONTHS.forEach(m => lines.push(y + ";" + m + ";"));
-      downloadFile("Modello_La_Mia_BP_" + y + ".csv", lines.join("\n"), "text/csv;charset=utf-8");
-    });
-
-    document.getElementById("triggerCsvBtn").addEventListener("click", () => {
-      document.getElementById("csvFileInput").click();
-    });
-
-    document.getElementById("csvFileInput").addEventListener("change", e => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = ev => {
-        const text = ev.target.result || "";
-        const lines = text.split(/\r?\n/);
-        let imported = 0;
-        lines.forEach(line => {
-          const trimmed = line.trim();
-          if (!trimmed) return;
-          const sep = trimmed.includes(";") ? ";" : ",";
-          const parts = trimmed.split(sep);
-          if (parts.length < 3) return;
-          const y = parseInt(parts[0].trim(), 10);
-          const mIdx = parseMonthToken(parts[1]);
-          const valStr = parts[2].trim().replace("€", "").replace(/\./g, "").replace(",", ".");
-          const val = parseFloat(valStr);
-          if (!isNaN(y) && mIdx >= 0 && !isNaN(val) && val > 0) {
-            if (!state.records[y]) state.records[y] = Array(12).fill(null);
-            state.records[y][mIdx] = val;
-            state.selectedYear = y;
-            imported++;
-          }
-        });
-        saveState();
-        renderAll();
-        alert("Importazione completata: " + imported + " voci caricate.");
-        e.target.value = "";
-      };
-      reader.readAsText(file, "UTF-8");
-    });
-
-    document.getElementById("exportCsvBtn").addEventListener("click", () => {
-      const lines = ["Anno;Mese;Netto"];
-      const yrs = Object.keys(state.records).sort((a, b) => a - b);
-      yrs.forEach(y => {
-        (state.records[y] || []).forEach((v, idx) => {
-          if (v !== null && v > 0) {
-            lines.push(y + ";" + MONTHS[idx] + ";" + Number(v).toFixed(2).replace(".", ","));
-          }
-        });
-      });
-      downloadFile("La_Mia_BP_Export.csv", lines.join("\n"), "text/csv;charset=utf-8");
-    });
-
-    document.getElementById("exportJsonBtn").addEventListener("click", () => {
-      downloadFile("La_Mia_BP_Backup.json", JSON.stringify(state, null, 2), "application/json");
-    });
-
-    document.getElementById("resetDataBtn").addEventListener("click", () => {
-      if (confirm("Vuoi davvero cancellare tutti i dati inseriti?")) {
-        state.records = {};
-        state.events = [];
-        saveState();
-        renderAll();
-      }
-    });
-  });
+var STORAGE_KEY = 'lamiabp_new_data_v2';
+var PREFS_KEY = 'lamiabp_new_prefs_v2';
+var MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+var MONTHS_SHORT = ['G','F','M','A','M','G','L','A','S','O','N','D'];
+var PIE_COLORS = ['#007AFF','#34C759','#FF9500','#5856D6','#FF2D55','#5AC8FA','#AF52DE','#FFCC00','#30B0C7','#FF3B30','#32ADE6','#A2845E'];
+var CHART_TYPES = ['bar', 'line', 'pie'];
+var currentYear = new Date().getFullYear();
+var state = {
+monthly: {},
+events: []
+};
+var prefs = {
+dark: false,
+vis: { netto: true, media: true, totale: true, chartMensile: true, chartAnnuale: true },
+monthlyChartType: 'bar',
+annualChartType: 'bar'
+};
+function loadAll() {
+try {
+var raw = localStorage.getItem(STORAGE_KEY);
+if (raw) {
+var parsed = JSON.parse(raw);
+if (parsed && typeof parsed === 'object') {
+state.monthly = parsed.monthly || {};
+state.events = Array.isArray(parsed.events) ? parsed.events : [];
+}
+}
+var rawP = localStorage.getItem(PREFS_KEY);
+if (rawP) {
+var pp = JSON.parse(rawP);
+if (pp) {
+prefs.dark = !!pp.dark;
+if (pp.vis) {
+prefs.vis.netto = pp.vis.netto !== false;
+prefs.vis.media = pp.vis.media !== false;
+prefs.vis.totale = pp.vis.totale !== false;
+prefs.vis.chartMensile = pp.vis.chartMensile !== false;
+prefs.vis.chartAnnuale = pp.vis.chartAnnuale !== false;
+}
+if (CHART_TYPES.indexOf(pp.monthlyChartType) !== -1) prefs.monthlyChartType = pp.monthlyChartType;
+if (CHART_TYPES.indexOf(pp.annualChartType) !== -1) prefs.annualChartType = pp.annualChartType;
+}
+}
+} catch (e) {}
+if (!state.monthly[currentYear]) {
+var yrs = Object.keys(state.monthly).map(Number).sort(function(a,b){return b-a;});
+if (yrs.length > 0) currentYear = yrs[0];
+}
+}
+function saveState() {
+try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+function savePrefs() {
+try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {}
+}
+function showToast(msg) {
+var t = document.getElementById('toast');
+t.textContent = msg;
+t.style.display = 'block';
+clearTimeout(t._timer);
+t._timer = setTimeout(function() { t.style.display = 'none'; }, 2400);
+}
+function fmtEur(n) {
+var val = Number(n) || 0;
+return '€ ' + val.toLocaleString('it-IT', { minimumFractionDigits: val % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 });
+}
+function fmtShort(n) {
+var val = Number(n) || 0;
+if (val === 0) return '';
+if (val >= 1000) return (val / 1000).toFixed(1).replace('.', ',') + 'k';
+return Math.round(val) + '€';
+}
+function parseNumberInput(str) {
+if (!str) return NaN;
+var clean = String(str).trim().replace(/\s+/g, '');
+if (clean.indexOf(',') !== -1 && clean.indexOf('.') !== -1) {
+clean = clean.replace(/./g, '').replace(',', '.');
+} else {
+clean = clean.replace(',', '.');
+}
+return parseFloat(clean);
+}
+function getAvailableYears() {
+var set = {};
+set[new Date().getFullYear()] = true;
+set[currentYear] = true;
+Object.keys(state.monthly).forEach(function(y) { set[Number(y)] = true; });
+state.events.forEach(function(ev) { if (ev.year) set[Number(ev.year)] = true; });
+return Object.keys(set).map(Number).sort(function(a,b){ return b - a; });
+}
+function syncYearDropdown() {
+var sel = document.getElementById('yearSelect');
+var years = getAvailableYears();
+sel.innerHTML = '';
+years.forEach(function(y) {
+var opt = document.createElement('option');
+opt.value = y;
+opt.textContent = y;
+if (y === currentYear) opt.selected = true;
+sel.appendChild(opt);
+});
+}
+function buildLineChartSVG(labels, values, highlightIdx) {
+var n = labels.length;
+var w = Math.max(320, n * 44);
+var h = 155;
+var padL = 18, padR = 18, padT = 24, padB = 24;
+var plotW = w - padL - padR;
+var plotH = h - padT - padB;
+var maxVal = Math.max.apply(null, values.concat([1]));
+var pts = [];
+for (var i = 0; i < n; i++) {
+var x = n === 1 ? padL + plotW / 2 : padL + (i / (n - 1)) * plotW;
+var y = padT + plotH - ((values[i] || 0) / maxVal) * plotH;
+pts.push({ x: x, y: y, val: values[i] || 0, lbl: labels[i], idx: i });
+}
+var pathD = '';
+pts.forEach(function(p, idx) {
+if (idx === 0) {
+pathD += 'M ' + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
+} else {
+var prev = pts[idx - 1];
+var cx = (prev.x + p.x) / 2;
+pathD += ' C ' + cx.toFixed(1) + ' ' + prev.y.toFixed(1) + ', ' + cx.toFixed(1) + ' ' + p.y.toFixed(1) + ', ' + p.x.toFixed(1) + ' ' + p.y.toFixed(1);
+}
+});
+var areaD = pathD + ' L ' + pts[pts.length - 1].x.toFixed(1) + ' ' + (padT + plotH) + ' L ' + pts[0].x.toFixed(1) + ' ' + (padT + plotH) + ' Z';
+var gradId = 'lg_' + Math.random().toString(36).substr(2, 6);
+var svg = '';
+svg += '';
+svg += '';
+svg += '';
+pts.forEach(function(p) {
+var isHi = p.idx === highlightIdx;
+var dotCol = isHi ? '#34C759' : '#007AFF';
+if (p.val > 0) {
+svg += '';
+svg += '' + fmtShort(p.val) + '';
+}
+svg += '' + p.lbl + '';
+});
+svg += '';
+return svg;
+}
+function buildPieChartHTML(labels, values) {
+var total = values.reduce(function(a, b) { return a + (b || 0); }, 0);
+if (total <= 0) return 'Nessun dato positivo da mostrare nel grafico a torta.';
+var size = 136;
+var cx = size / 2, cy = size / 2, r = 54, innerR = 30;
+var startAngle = -Math.PI / 2;
+var svg = '';
+var legend = '';
+var activeItems = [];
+for (var i = 0; i < labels.length; i++) {
+if ((values[i] || 0) > 0) {
+activeItems.push({ label: labels[i], val: values[i], color: PIE_COLORS[i % PIE_COLORS.length] });
+}
+}
+if (activeItems.length === 1) {
+var item = activeItems[0];
+svg += '';
+svg += '';
+legend += '' + item.label + '100% (' + fmtShort(item.val) + ')';
+} else {
+activeItems.forEach(function(item) {
+var slice = (item.val / total) * Math.PI * 2;
+var endAngle = startAngle + slice;
+var x1 = cx + r * Math.cos(startAngle);
+var y1 = cy + r * Math.sin(startAngle);
+var x2 = cx + r * Math.cos(endAngle);
+var y2 = cy + r * Math.sin(endAngle);
+var ix1 = cx + innerR * Math.cos(endAngle);
+var iy1 = cy + innerR * Math.sin(endAngle);
+var ix2 = cx + innerR * Math.cos(startAngle);
+var iy2 = cy + innerR * Math.sin(startAngle);
+var largeArc = slice > Math.PI ? 1 : 0;
+var d = 'M ' + x1.toFixed(2) + ' ' + y1.toFixed(2) +
+' A ' + r + ' ' + r + ' 0 ' + largeArc + ' 1 ' + x2.toFixed(2) + ' ' + y2.toFixed(2) +
+' L ' + ix1.toFixed(2) + ' ' + iy1.toFixed(2) +
+' A ' + innerR + ' ' + innerR + ' 0 ' + largeArc + ' 0 ' + ix2.toFixed(2) + ' ' + iy2.toFixed(2) + ' Z';
+svg += '';
+startAngle = endAngle;
+var pct = Math.round((item.val / total) * 100);
+legend += '' + item.label + '' + pct + '% (' + fmtShort(item.val) + ')';
+});
+}
+svg += '';
+legend += '';
+return '' + svg + legend + '';
+}
+function renderMonthlyChart(arr) {
+var container = document.getElementById('monthlyChartContainer');
+var type = prefs.monthlyChartType;
+document.querySelectorAll('#pills-monthly .chart-pill').forEach(function(b) {
+b.classList.toggle('active', b.getAttribute('data-type') === type);
+});
+if (type === 'pie') {
+container.innerHTML = buildPieChartHTML(MONTHS, arr);
+return;
+}
+if (type === 'line') {
+container.innerHTML = '' + buildLineChartSVG(MONTHS_SHORT, arr, -1) + '';
+return;
+}
+var maxVal = Math.max.apply(null, arr.concat([1]));
+var html = '';
+for (var i = 0; i < 12; i++) {
+var v = arr[i] || 0;
+var hPct = v > 0 ? Math.max(6, Math.round((v / maxVal) * 100)) : 3;
+html += '' +
+'' + fmtShort(v) + '' +
+'' +
+'' + MONTHS_SHORT[i] + '' +
+'';
+}
+html += '';
+container.innerHTML = html;
+}
+function renderAnnualChart() {
+var container = document.getElementById('annualChartContainer');
+var type = prefs.annualChartType;
+document.querySelectorAll('#pills-annual .chart-pill').forEach(function(b) {
+b.classList.toggle('active', b.getAttribute('data-type') === type);
+});
+var years = Object.keys(state.monthly).map(Number).sort(function(a,b){ return a - b; });
+if (years.length === 0) {
+container.innerHTML = 'Premi + in alto a destra per inserire il primo mese.';
+return;
+}
+var totals = years.map(function(y) {
+return (state.monthly[y] || []).reduce(function(a, b) { return a + (Number(b) || 0); }, 0);
+});
+var labels = years.map(String);
+var hiIdx = years.indexOf(currentYear);
+if (type === 'pie') {
+container.innerHTML = buildPieChartHTML(labels, totals);
+return;
+}
+if (type === 'line') {
+container.innerHTML = '' + buildLineChartSVG(labels, totals, hiIdx) + '';
+scrollAnnualToSelected(hiIdx);
+return;
+}
+var maxVal = Math.max.apply(null, totals.concat([1]));
+var html = '';
+for (var i = 0; i < years.length; i++) {
+var v = totals[i];
+var hPct = v > 0 ? Math.max(6, Math.round((v / maxVal) * 100)) : 3;
+var cls = years[i] === currentYear ? 'bar-fill highlight' : 'bar-fill';
+html += '' +
+'' + fmtShort(v) + '' +
+'' +
+'' + years[i] + '' +
+'';
+}
+html += '';
+container.innerHTML = html;
+scrollAnnualToSelected(hiIdx);
+}
+function scrollAnnualToSelected(idx) {
+if (idx < 0) return;
+setTimeout(function() {
+var box = document.getElementById('annualScrollBox');
+if (box) {
+var target = Math.max(0, idx * 54 - box.clientWidth / 2 + 27);
+box.scrollLeft = target;
+}
+}, 30);
+}
+function renderDashboard() {
+var arr = state.monthly[currentYear] ||;
+var yearSum = 0;
+var activeMonths = 0;
+for (var i = 0; i < 12; i++) {
+var val = Number(arr[i]) || 0;
+yearSum += val;
+if (val > 0) activeMonths++;
+}
+var avg = activeMonths > 0 ? yearSum / activeMonths : 0;
+var allTimeSum = 0;
+Object.keys(state.monthly).forEach(function(y) {
+var mArr = state.monthly[y] || [];
+for (var j = 0; j < mArr.length; j++) allTimeSum += (Number(mArr[j]) || 0);
+});
+document.getElementById('kpiNetto').textContent = fmtEur(yearSum);
+document.getElementById('kpiMedia').textContent = fmtEur(avg);
+document.getElementById('kpiTotaleStorico').textContent = fmtEur(allTimeSum);
+document.getElementById('monthlyChartTitle').textContent = 'Andamento Mensile ' + currentYear;
+var yearEvents = state.events.filter(function(e) { return Number(e.year) === currentYear; });
+var banner = document.getElementById('eventsBanner');
+var bList = document.getElementById('eventsBannerList');
+if (yearEvents.length > 0) {
+banner.style.display = 'block';
+bList.innerHTML = yearEvents.map(function(ev) {
+var badge = (ev.value !== null && ev.value !== undefined && ev.value !== '')
+? '' + fmtEur(ev.value) + '' : '';
+return '' + escapeHtml(ev.title) + '' + badge + '';
+}).join('');
+} else {
+banner.style.display = 'none';
+}
+renderMonthlyChart(arr);
+renderAnnualChart();
+}
+function renderStorico() {
+document.getElementById('storicoMonthHeader').textContent = 'Dettaglio Mensile ' + currentYear;
+var arr = state.monthly[currentYear] ||;
+var mList = document.getElementById('storicoMonthlyList');
+var mHtml = '';
+for (var i = 0; i < 12; i++) {
+var val = Number(arr[i]) || 0;
+mHtml += '' +
+'' + MONTHS[i] + 'Tocca per modificare' +
+'' + fmtEur(val) + '' +
+'';
+}
+mList.innerHTML = mHtml;
+var evList = document.getElementById('storicoEventsList');
+var yearEvents = state.events.map(function(e, idx) { return { item: e, idx: idx }; })
+.filter(function(o) { return Number(o.item.year) === currentYear; });
+if (yearEvents.length === 0) {
+evList.innerHTML = 'Nessun evento registrato per il ' + currentYear + '';
+} else {
+evList.innerHTML = yearEvents.map(function(o) {
+var valStr = (o.item.value !== null && o.item.value !== undefined && o.item.value !== '') ? ' • ' + fmtEur(o.item.value) : '';
+return '' +
+'' + escapeHtml(o.item.title) + '' + o.item.year + valStr + '' +
+'Elimina' +
+'';
+}).join('');
+}
+var yList = document.getElementById('storicoYearsList');
+var years = Object.keys(state.monthly).map(Number).sort(function(a,b){ return b - a; });
+if (years.length === 0) {
+yList.innerHTML = 'Nessun dato storico presente';
+} else {
+yList.innerHTML = years.map(function(y) {
+var sum = (state.monthly[y] || []).reduce(function(a,b){ return a + (Number(b)||0); }, 0);
+return '' +
+'' + y + '' +
+'' + fmtEur(sum) + '' +
+'';
+}).join('');
+}
+}
+function applyPrefsUI() {
+document.body.classList.toggle('dark', prefs.dark);
+document.getElementById('toggleDark').checked = prefs.dark;
+document.getElementById('vis-netto').checked = prefs.vis.netto;
+document.getElementById('vis-media').checked = prefs.vis.media;
+document.getElementById('vis-totale').checked = prefs.vis.totale;
+document.getElementById('vis-chart-mensile').checked = prefs.vis.chartMensile;
+document.getElementById('vis-chart-annuale').checked = prefs.vis.chartAnnuale;
+document.getElementById('card-netto').style.display = prefs.vis.netto ? 'block' : 'none';
+document.getElementById('card-media').style.display = prefs.vis.media ? 'block' : 'none';
+document.getElementById('card-totale').style.display = prefs.vis.totale ? 'flex' : 'none';
+document.getElementById('card-chart-mensile').style.display = prefs.vis.chartMensile ? 'block' : 'none';
+document.getElementById('card-chart-annuale').style.display = prefs.vis.chartAnnuale ? 'block' : 'none';
+}
+function escapeHtml(s) {
+return String(s || '').replace(/&/g,'&').replace(/</g,'<').replace(/>/g,'>').replace(/"/g,'"');
+}
+function switchTab(tabName) {
+document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+document.getElementById('view-' + tabName).classList.add('active');
+document.querySelectorAll('.tab-item[data-tab]').forEach(function(b) {
+b.classList.toggle('active', b.getAttribute('data-tab') === tabName);
+});
+if (tabName === 'dashboard') renderDashboard();
+if (tabName === 'storico') renderStorico();
+}
+function openModal(mode, preMonth) {
+document.getElementById('addModal').classList.add('open');
+document.getElementById('inpYear').value = currentYear;
+document.getElementById('evYear').value = currentYear;
+if (typeof preMonth === 'number') {
+document.getElementById('inpMonth').value = String(preMonth);
+var existing = (state.monthly[currentYear] && state.monthly[currentYear][preMonth]) || '';
+document.getElementById('inpAmount').value = existing ? String(existing).replace('.', ',') : '';
+} else {
+document.getElementById('inpAmount').value = '';
+}
+document.getElementById('evTitle').value = '';
+document.getElementById('evVal').value = '';
+setModalSegment(mode || 'netto');
+}
+function closeModal() {
+document.getElementById('addModal').classList.remove('open');
+}
+function setModalSegment(mode) {
+var isNetto = mode === 'netto';
+document.getElementById('segNetto').classList.toggle('active', isNetto);
+document.getElementById('segEvento').classList.toggle('active', !isNetto);
+document.getElementById('formNetto').style.display = isNetto ? 'block' : 'none';
+document.getElementById('formEvento').style.display = isNetto ? 'none' : 'block';
+}
+function cycleChartType(key) {
+var cur = prefs[key];
+var next = CHART_TYPES[(CHART_TYPES.indexOf(cur) + 1) % CHART_TYPES.length];
+prefs[key] = next;
+savePrefs();
+renderDashboard();
+}
+function downloadFile(filename, content, mime) {
+var blob = new Blob([content], { type: mime });
+var url = URL.createObjectURL(blob);
+var a = document.createElement('a');
+a.href = url;
+a.download = filename;
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+}
+function importCsvText(text) {
+var lines = text.split(/\r?\n/);
+var imported = 0;
+for (var i = 0; i < lines.length; i++) {
+var line = lines[i].trim();
+if (!line) continue;
+var sep = line.indexOf(';') !== -1 ? ';' : ',';
+var parts = line.split(sep).map(function(p) { return p.trim().replace(/^"|"$/g, ''); });
+if (parts.length < 3) continue;
+var yr = parseInt(parts[0], 10);
+if (isNaN(yr) || yr < 1900 || yr > 2100) continue;
+var mRaw = parts[1].toLowerCase();
+var mIdx = -1;
+var mNum = parseInt(mRaw, 10);
+if (!isNaN(mNum) && mNum >= 1 && mNum <= 12) {
+mIdx = mNum - 1;
+} else {
+for (var m = 0; m < 12; m++) {
+if (MONTHS[m].toLowerCase().indexOf(mRaw) === 0 || mRaw.indexOf(MONTHS[m].toLowerCase()) === 0) {
+mIdx = m;
+break;
+}
+}
+}
+if (mIdx === -1) continue;
+var val = parseNumberInput(parts[2]);
+if (isNaN(val)) continue;
+if (!state.monthly[yr]) state.monthly[yr] =;
+state.monthly[yr][mIdx] = val;
+currentYear = yr;
+imported++;
+}
+if (imported > 0) {
+saveState();
+syncYearDropdown();
+renderDashboard();
+renderStorico();
+showToast('Importati ' + imported + ' mesi con successo');
+} else {
+showToast('Nessuna riga valida trovata nel CSV');
+}
+}
+// Event Listeners
+document.getElementById('yearSelect').addEventListener('change', function(e) {
+currentYear = Number(e.target.value);
+renderDashboard();
+renderStorico();
+});
+document.getElementById('openModalTopBtn').addEventListener('click', function() { openModal('netto'); });
+document.getElementById('tabAddBtn').addEventListener('click', function() { openModal('netto'); });
+document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+document.getElementById('addModal').addEventListener('click', function(e) {
+if (e.target === this) closeModal();
+});
+document.getElementById('segNetto').addEventListener('click', function() { setModalSegment('netto'); });
+document.getElementById('segEvento').addEventListener('click', function() { setModalSegment('evento'); });
+document.querySelectorAll('.tab-item[data-tab]').forEach(function(btn) {
+btn.addEventListener('click', function() {
+switchTab(this.getAttribute('data-tab'));
+});
+});
+document.getElementBy
+Id('btnSaveNetto').addEventListener('click', function() {
+var yr = parseInt(document.getElementById('inpYear').value, 10);
+var mo = parseInt(document.getElementById('inpMonth').value, 10);
+var val = parseNumberInput(document.getElementById('inpAmount').value);
+if (isNaN(yr) || yr < 1900 || yr > 2100) { showToast('Inserisci un anno valido'); return; }
+if (isNaN(val) || val < 0) { showToast('Inserisci un importo valido'); return; }
+if (!state.monthly[yr]) state.monthly[yr] =;
+state.monthly[yr][mo] = val;
+currentYear = yr;
+saveState();
+syncYearDropdown();
+renderDashboard();
+renderStorico();
+closeModal();
+showToast('Netto salvato: ' + MONTHS[mo] + ' ' + yr);
+});
+document.getElementById('btnSaveEvento').addEventListener('click', function() {
+var yr = parseInt(document.getElementById('evYear').value, 10);
+var title = document.getElementById('evTitle').value.trim();
+var valRaw = document.getElementById('evVal').value.trim();
+var val = valRaw ? parseNumberInput(valRaw) : null;
+if (isNaN(yr) || yr < 1900 || yr > 2100) { showToast('Inserisci un anno valido'); return; }
+if (!title) { showToast('Inserisci una descrizione evento'); return; }
+if (valRaw && isNaN(val)) { showToast('Valore in euro non valido'); return; }
+state.events.push({ year: yr, title: title, value: val });
+currentYear = yr;
+saveState();
+syncYearDropdown();
+renderDashboard();
+renderStorico();
+closeModal();
+showToast('Evento salvato per il ' + yr);
+});
+// Chart switching (pills + touch area)
+document.querySelectorAll('#pills-monthly .chart-pill').forEach(function(btn) {
+btn.addEventListener('click', function(e) {
+e.stopPropagation();
+prefs.monthlyChartType = this.getAttribute('data-type');
+savePrefs();
+renderDashboard();
+});
+});
+document.querySelectorAll('#pills-annual .chart-pill').forEach(function(btn) {
+btn.addEventListener('click', function(e) {
+e.stopPropagation();
+prefs.annualChartType = this.getAttribute('data-type');
+savePrefs();
+renderDashboard();
+});
+});
+document.getElementById('monthlyChartTouch').addEventListener('click', function() {
+cycleChartType('monthlyChartType');
+});
+document.getElementById('annualChartTouch').addEventListener('click', function() {
+cycleChartType('annualChartType');
+});
+// Storico delegation
+document.getElementById('storicoMonthlyList').addEventListener('click', function(e) {
+var row = e.target.closest('[data-edit-month]');
+if (row) openModal('netto', parseInt(row.getAttribute('data-edit-month'), 10));
+});
+document.getElementById('storicoEventsList').addEventListener('click', function(e) {
+var btn = e.target.closest('[data-del-ev]');
+if (btn) {
+var idx = parseInt(btn.getAttribute('data-del-ev'), 10);
+state.events.splice(idx, 1);
+saveState();
+renderDashboard();
+renderStorico();
+showToast('Evento eliminato');
+}
+});
+document.getElementById('storicoYearsList').addEventListener('click', function(e) {
+var row = e.target.closest('[data-select-year]');
+if (row) {
+currentYear = parseInt(row.getAttribute('data-select-year'), 10);
+syncYearDropdown();
+switchTab('dashboard');
+}
+});
+// Preferences toggles
+document.getElementById('toggleDark').addEventListener('change', function() {
+prefs.dark = this.checked;
+savePrefs();
+applyPrefsUI();
+});
+var visMap = {
+'vis-netto': 'netto',
+'vis-media': 'media',
+'vis-totale': 'totale',
+'vis-chart-mensile': 'chartMensile',
+'vis-chart-annuale': 'chartAnnuale'
+};
+Object.keys(visMap).forEach(function(id) {
+document.getElementById(id).addEventListener('change', function() {
+prefs.vis[visMap[id]] = this.checked;
+savePrefs();
+applyPrefsUI();
+});
+});
+// CSV / JSON Actions
+document.getElementById('btnDownloadTemplate').addEventListener('click', function() {
+var lines = ['Anno;Mese;Netto'];
+for (var i = 0; i < 12; i++) lines.push(currentYear + ';' + MONTHS[i] + ';0.00');
+downloadFile('Modello_La_Mia_BP_' + currentYear + '.csv', lines.join('\n'), 'text/csv;charset=utf-8;');
+showToast('Modello CSV scaricato');
+});
+document.getElementById('btnImportCsv').addEventListener('click', function() {
+document.getElementById('csvFileInput').click();
+});
+document.getElementById('csvFileInput').addEventListener('change', function(e) {
+var file = e.target.files && e.target.files[0];
+if (!file) return;
+var reader = new FileReader();
+reader.onload = function(ev) { importCsvText(ev.target.result || ''); };
+reader.readAsText(file, 'UTF-8');
+this.value = '';
+});
+document.getElementById('btnExportCsv').addEventListener('click', function() {
+var years = Object.keys(state.monthly).map(Number).sort(function(a,b){ return a - b; });
+var lines = ['Anno;Mese;Netto'];
+years.forEach(function(y) {
+var arr = state.monthly[y] || [];
+for (var i = 0; i < 12; i++) {
+if ((Number(arr[i]) || 0) > 0) {
+lines.push(y + ';' + MONTHS[i] + ';' + Number(arr[i]).toFixed(2));
+}
+}
+});
+downloadFile('Export_La_Mia_BP.csv', lines.join('\n'), 'text/csv;charset=utf-8;');
+showToast('Dati esportati in CSV');
+});
+document.getElementById('btnExportJson').addEventListener('click', function() {
+downloadFile('Backup_La_Mia_BP.json', JSON.stringify(state, null, 2), 'application/json');
+showToast('Backup JSON scaricato');
+});
+document.getElementById('btnResetAll').addEventListener('click', function() {
+if (confirm('Vuoi davvero cancellare tutti i dati salvati nell'app?')) {
+state = { monthly: {}, events: [] };
+saveState();
+syncYearDropdown();
+renderDashboard();
+renderStorico();
+showToast('Tutti i dati sono stati azzerati');
+}
+});
+// Init
+loadAll();
+applyPrefsUI();
+syncYearDropdown();
+renderDashboard();
 })();
-</script>
-</body>
-</html>
+
+
+
+<FollowUp>
+Appena hai incollato il codice su **GitHub** e premuto **Commit changes**, attendi 30 secondi, ricarica la pagina su **iPhone** e fammi sapere se i nuovi grafici (**Barre**, **Linea**, **Torta**) funzionano come desideri!
+</FollowUp>
